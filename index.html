@@ -333,7 +333,7 @@
         .task-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 10px;
             margin-bottom: 10px;
         }
 
@@ -347,7 +347,6 @@
             padding: 5px;
             border: none;
             border-radius: 4px;
-            flex-grow: 1;
         }
 
         .task-meta {
@@ -368,7 +367,7 @@
 
         .current-step {
             margin-top: 5px;
-            width: 120px;
+            width: 50%;
             min-height: 20px;
             max-height: 20px;
             padding: 5px;
@@ -379,7 +378,6 @@
             line-height: 1.4;
             overflow: hidden;
             height: auto;
-            text-align: center;
         }
 
         .notes-header {
@@ -413,6 +411,9 @@
         }
 
         .task-controls {
+            position: absolute;
+            top: 12px;
+            right: 12px;
             display: flex;
             gap: 8px;
             align-items: center;
@@ -453,7 +454,6 @@
             flex-grow: 1;
             margin-bottom: 0;
             align-items: center;
-            gap: 10px;
         }
 
         .search-bar {
@@ -466,7 +466,6 @@
             padding: 8px 12px;
             font-size: 12px;
             background-color: #6c757d;
-            margin-left: 10px;
         }
 
         .notes-container {
@@ -670,7 +669,7 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            margin-left: 10px;
+            margin-right: 10px;
         }
 
         .complete-checkbox-label {
@@ -701,7 +700,8 @@
         .waiting-on-input {
             height: 36px;
             width: 300px !important;
-            margin-left: 10px !important;
+            margin-left: 0 !important;
+            margin-right: 10px;
             padding: 5px;
             font-size: 13px;
             border: 1px solid #ddd;
@@ -739,7 +739,7 @@
             font-weight: bold;
             font-size: 16px;
             flex: 1;
-            width: 100%;
+            width: 50%;
         }
 
         .note-date {
@@ -1033,7 +1033,7 @@
 
         /* Contact Name and Waiting On adjustments */
         .contact-name-input {
-            width: 40% !important;
+            width: 60% !important;
         }
 
         /* Subheading controls spacing */
@@ -1058,25 +1058,11 @@
         }
 
         .note-title-input {
-            width: 70% !important;
+            width: 50% !important;
         }
 
         .note-date-input {
             width: 150px !important;
-        }
-
-        /* New Task Form adjustments */
-        #taskTitle {
-            width: 300% !important;
-            max-width: 450px;
-        }
-
-        /* Contact form adjustments */
-        .contact-form-row {
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-            width: 100%;
         }
 
         @media (max-width: 768px) {
@@ -1141,16 +1127,6 @@
 
             .note-title-input {
                 width: 100% !important;
-            }
-
-            .contact-form-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            #taskTitle {
-                width: 100% !important;
-                max-width: 100%;
             }
         }
     </style>
@@ -1293,7 +1269,7 @@
             </div>
             
             <div class="input-section collapsed">
-                <div class="input-group" style="flex-grow: 3;">
+                <div class="input-group">
                     <input type="text" id="taskTitle" placeholder="Task title">
                 </div>
                 <div class="input-group">
@@ -1390,11 +1366,8 @@
             </div>
             
             <div class="input-section collapsed">
-                <div class="contact-form-row">
-                    <div class="input-group" style="flex: 1;">
-                        <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
-                    </div>
-                    <input type="text" class="waiting-on-input" placeholder="Waiting on..." id="contactWaitingOn">
+                <div class="input-group" style="flex: 1.5;">
+                    <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
                 </div>
                 <div class="input-group">
                     <input type="text" id="contactJobTitle" placeholder="Job Title">
@@ -1405,6 +1378,7 @@
                 <div class="input-group">
                     <input type="tel" id="contactPhone" placeholder="Phone">
                 </div>
+                <input type="text" class="waiting-on-input" placeholder="Waiting on..." id="contactWaitingOn">
                 <button onclick="addContact()">Add Contact</button>
                 
                 <div class="notes-container" style="width: 100%; margin-top: 10px;">
@@ -2509,16 +2483,16 @@
 
             taskElement.innerHTML = `
                 <div class="task-header">
+                    <div class="complete-checkbox">
+                        <input type="checkbox" id="complete-${task.id}" ${task.completed ? 'checked' : ''} 
+                               onchange="toggleTask(${task.id})">
+                        <label for="complete-${task.id}" class="complete-checkbox-label">Complete</label>
+                    </div>
                     <span class="task-title" contenteditable="true" 
                           oninput="updateTaskField(${task.id}, 'title', this.innerText)">
                         ${task.title}
                     </span>
                     <div class="task-controls">
-                        <div class="complete-checkbox">
-                            <input type="checkbox" id="complete-${task.id}" ${task.completed ? 'checked' : ''} 
-                                   onchange="toggleTask(${task.id})">
-                            <label for="complete-${task.id}" class="complete-checkbox-label">Complete</label>
-                        </div>
                         <button class="delete-btn" onclick="confirmDelete('task', ${task.id})">
                             <i class="fas fa-trash"></i>
                         </button>
