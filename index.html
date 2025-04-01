@@ -1454,11 +1454,6 @@
 
         // Toggle sidebar
         function toggleSidebar(event) {
-            event.stopPropagation();
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('expanded');
-            
-        function toggleSidebar(event) {
             if (event) event.stopPropagation();
             const sidebar = document.querySelector('.sidebar');
             const wasExpanded = sidebar.classList.contains('expanded');
@@ -1499,16 +1494,7 @@
         function handleCalendarClick(event) {
             toggleSidebar(event); // Let the enhanced toggleSidebar handle everything
         }
-            
-        function handleCalendarClick() {
-            const sidebar = document.querySelector('.sidebar');
-            if (!sidebar.classList.contains('expanded')) {
-                toggleSidebar(); // Expand the sidebar if it's collapsed
-            }
-            // Scroll to the mini calendar if needed
-            document.getElementById('miniCalendar').scrollIntoView({ behavior: 'smooth' });
-        }
-        
+                    
         function toggleCalendarView() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('expanded');
