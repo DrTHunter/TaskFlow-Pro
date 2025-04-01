@@ -369,6 +369,7 @@
             margin-top: 5px;
             width: 50%;
             min-height: 20px;
+            max-height: 20px;
             padding: 5px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -668,6 +669,12 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            margin-right: 10px;
+        }
+
+        .complete-checkbox-label {
+            font-size: 13px;
+            color: #555;
         }
 
         .contact-header {
@@ -692,13 +699,17 @@
 
         .waiting-on-input {
             height: 36px;
-            width: 250px !important;
+            width: 300px !important;
             margin-left: 0 !important;
             margin-right: 10px;
             padding: 5px;
             font-size: 13px;
             border: 1px solid #ddd;
             border-radius: 4px;
+            resize: none;
+            min-height: 36px;
+            max-height: none;
+            overflow-y: auto;
         }
 
         .process-header {
@@ -728,6 +739,13 @@
             font-weight: bold;
             font-size: 16px;
             flex: 1;
+            width: 50%;
+        }
+
+        .note-date {
+            font-size: 14px;
+            color: #666;
+            margin-left: 10px;
         }
 
         .settings-menu {
@@ -1015,12 +1033,13 @@
 
         /* Contact Name and Waiting On adjustments */
         .contact-name-input {
-            width: 150% !important;
+            width: 60% !important;
         }
 
         /* Subheading controls spacing */
         .subheading-controls {
             gap: 8px !important;
+            margin-left: 15px !important;
         }
 
         /* Add button sizing */
@@ -1028,6 +1047,22 @@
             height: 30px !important;
             padding: 0 10px !important;
             line-height: 30px !important;
+        }
+
+        /* Note title and date input */
+        .note-title-input-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .note-title-input {
+            width: 50% !important;
+        }
+
+        .note-date-input {
+            width: 150px !important;
         }
 
         @media (max-width: 768px) {
@@ -1083,6 +1118,15 @@
                 position: static;
                 margin-top: 5px;
                 width: 100%;
+            }
+
+            .contact-name-input,
+            .waiting-on-input {
+                width: 100% !important;
+            }
+
+            .note-title-input {
+                width: 100% !important;
             }
         }
     </style>
@@ -1288,8 +1332,9 @@
             </div>
             
             <div class="input-section collapsed">
-                <div class="input-group" style="width: 60%;">
-                    <input type="text" id="noteTitle" placeholder="Note title">
+                <div class="note-title-input-container">
+                    <input type="text" id="noteTitle" class="note-title-input" placeholder="Note title">
+                    <input type="date" id="noteDate" class="note-date-input">
                 </div>
                 <button onclick="addNote()">Add Note</button>
                 
@@ -2438,15 +2483,16 @@
 
             taskElement.innerHTML = `
                 <div class="task-header">
+                    <div class="complete-checkbox">
+                        <input type="checkbox" id="complete-${task.id}" ${task.completed ? 'checked' : ''} 
+                               onchange="toggleTask(${task.id})">
+                        <label for="complete-${task.id}" class="complete-checkbox-label">Complete</label>
+                    </div>
                     <span class="task-title" contenteditable="true" 
                           oninput="updateTaskField(${task.id}, 'title', this.innerText)">
                         ${task.title}
                     </span>
                     <div class="task-controls">
-                        <div class="complete-checkbox">
-                            <input type="checkbox" id="complete-${task.id}" ${task.completed ? 'checked' : ''} 
-                                   onchange="toggleTask(${task.id})">
-                        </div>
                         <button class="delete-btn" onclick="confirmDelete('task', ${task.id})">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -2623,9 +2669,8 @@
                           oninput="updateContactField(${contact.id}, 'name', this.innerText)">
                         ${contact.name}
                     </span>
-                    <input type="text" class="waiting-on-input" placeholder="Waiting on..." 
-                           value="${contact.waitingOn || ''}" 
-                           oninput="updateContactField(${contact.id}, 'waitingOn', this.value)">
+                    <textarea class="waiting-on-input" placeholder="Waiting on..." 
+                           oninput="updateContactField(${contact.id}, 'waitingOn', this.value)">${contact.waitingOn || ''}</textarea>
                     <div class="contact-controls">
                         <button class="delete-btn" onclick="confirmDelete('contact', ${contact.id})">
                             <i class="fas fa-trash"></i>
@@ -2783,6 +2828,7 @@
             const note = {
                 id: Date.now(),
                 title: document.getElementById('noteTitle').value.trim(),
+                date: document.getElementById('noteDate').value,
                 content: document.getElementById('noteContent').value,
                 created: new Date().toISOString(),
                 updated: new Date().toISOString(),
@@ -2814,10 +2860,15 @@
 
             noteElement.innerHTML = `
                 <div class="note-header">
-                    <span class="note-title" contenteditable="true" 
-                          oninput="updateNoteField(${note.id}, 'title', this.innerText)">
-                        ${note.title}
-                    </span>
+                    <div style="display: flex; align-items: center; flex-grow: 1;">
+                        <span class="note-title" contenteditable="true" 
+                              oninput="updateNoteField(${note.id}, 'title', this.innerText)">
+                            ${note.title}
+                        </span>
+                        <span class="note-date">
+                            ${note.date ? formatDate(note.date) : 'No date'}
+                        </span>
+                    </div>
                     <div class="task-controls">
                         <button class="delete-btn" onclick="confirmDelete('note', ${note.id})">
                             <i class="fas fa-trash"></i>
@@ -3165,6 +3216,7 @@
 
         function clearNoteForm() {
             document.getElementById('noteTitle').value = '';
+            document.getElementById('noteDate').value = '';
             document.getElementById('noteContent').value = '';
         }
 
