@@ -751,11 +751,11 @@
             border-radius: 4px;
             padding: 5px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: none; /* Hidden by default */
+            display: none;
         }
 
         .sidebar.expanded .mini-calendar {
-            display: block; /* Show when sidebar is expanded */
+            display: block;
         }
 
         .mini-calendar-header {
@@ -768,6 +768,7 @@
         .mini-calendar-title {
             font-size: 12px;
             font-weight: bold;
+            color: #333;
         }
 
         .mini-calendar-nav {
@@ -780,7 +781,7 @@
             font-size: 10px;
             background: none;
             border: none;
-            color: #2d2d2d;
+            color: #333;
             cursor: pointer;
         }
 
@@ -790,6 +791,7 @@
             font-size: 10px;
             text-align: center;
             margin-bottom: 3px;
+            color: #333;
         }
 
         .mini-calendar-days {
@@ -805,6 +807,7 @@
             border-radius: 2px;
             cursor: pointer;
             transition: background-color 0.2s;
+            color: #333;
         }
 
         .mini-calendar-day:hover {
@@ -823,6 +826,14 @@
         .mini-calendar-day.selected {
             background: #1a73e8;
             color: white;
+        }
+
+        .sidebar-calendar-icon {
+            display: block;
+        }
+
+        .sidebar.expanded .sidebar-calendar-icon {
+            display: none;
         }
 
         /* Calendar Tab Styles */
@@ -1000,23 +1011,23 @@
 
         /* Contact Name and Waiting On adjustments */
         .contact-name-input {
-            width: 50% !important; /* Make contact name box half width */
+            width: 50% !important;
         }
 
         .waiting-on-input {
-            width: 200px !important; /* Make waiting on box longer */
-            margin-left: 5px !important; /* Adjust spacing */
+            width: 200px !important;
+            margin-left: 5px !important;
         }
 
         /* Subheading controls spacing */
         .subheading-controls {
-            gap: 8px !important; /* More space between buttons */
+            gap: 8px !important;
         }
 
         /* Add button sizing */
         .new-subheading-bar button {
-            height: 30px !important; /* Match height of input */
-            padding: 0 10px !important; /* Adjust padding */
+            height: 30px !important;
+            padding: 0 10px !important;
             line-height: 30px !important;
         }
 
@@ -1084,9 +1095,9 @@
             <i class="fas fa-bars"></i>
         </button>
         
-        <!-- Mini Calendar - Always visible but shows more when expanded -->
+        <!-- Mini Calendar - Shows icon when collapsed, calendar when expanded -->
         <div class="sidebar-item" onclick="handleCalendarClick()">
-            <i class="fas fa-calendar"></i>
+            <i class="fas fa-calendar sidebar-calendar-icon"></i>
             <span class="sidebar-label">Calendar</span>
             <div class="mini-calendar" id="miniCalendar">
                 <div class="mini-calendar-header">
@@ -1211,7 +1222,7 @@
             <div class="search-container">
                 <input type="text" class="search-bar" id="taskSearch" placeholder="Search tasks..." oninput="searchTasks()">
             </div>
-            <div class="input-section">
+            <div class="input-section collapsed">
                 <div class="input-group">
                     <input type="text" id="taskTitle" placeholder="Task title">
                 </div>
@@ -1271,7 +1282,7 @@
             <div class="search-container">
                 <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
             </div>
-            <div class="input-section">
+            <div class="input-section collapsed">
                 <div class="input-group" style="width: 60%;">
                     <input type="text" id="noteTitle" placeholder="Note title">
                 </div>
@@ -1301,7 +1312,7 @@
                     <i class="fas fa-flag"></i> Flagged Only
                 </button>
             </div>
-            <div class="input-section">
+            <div class="input-section collapsed">
                 <div class="input-group" style="width: 30%;">
                     <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
                 </div>
@@ -1338,7 +1349,7 @@
             <div class="search-container">
                 <input type="text" class="search-bar" id="processSearch" placeholder="Search processes..." oninput="searchProcesses()">
             </div>
-            <div class="input-section">
+            <div class="input-section collapsed">
                 <div class="input-group">
                     <input type="text" id="processTitle" placeholder="Process title">
                 </div>
@@ -1418,6 +1429,13 @@
             } else {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
+            }
+        }
+
+        function handleCalendarClick() {
+            openTab('calendar');
+            if (document.querySelector('.sidebar').classList.contains('expanded')) {
+                renderMiniCalendar();
             }
         }
 
@@ -3171,10 +3189,17 @@
             // Set up click handlers for sidebar items to toggle their subheadings
             document.querySelectorAll('.sidebar-item').forEach(item => {
                 const tabName = item.getAttribute('onclick').match(/'([^']+)'/)[1];
-                item.onclick = function(e) {
-                    openTab(tabName);
-                    toggleSidebarItem(tabName);
-                };
+                if (tabName !== 'handleCalendarClick()') {
+                    item.onclick = function(e) {
+                        openTab(tabName);
+                        toggleSidebarItem(tabName);
+                    };
+                }
+            });
+            
+            // Collapse all input sections by default
+            document.querySelectorAll('.input-section').forEach(section => {
+                section.classList.add('collapsed');
             });
         };
     </script>
