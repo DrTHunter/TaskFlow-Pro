@@ -513,6 +513,30 @@
             margin-left: 10px;
         }
 
+        .subheading-selector {
+            position: absolute;
+            right: 50px;
+            top: 12px;
+        }
+
+        .contact-subheading-selector {
+            position: absolute;
+            right: 50px;
+            top: 8px;
+        }
+
+        .process-subheading-selector {
+            position: absolute;
+            right: 50px;
+            top: 12px;
+        }
+
+        .note-subheading-selector {
+            position: absolute;
+            right: 50px;
+            top: 12px;
+        }
+
         .contact-details {
             margin: 5px 0;
             display: flex;
@@ -622,7 +646,7 @@
 
         .waiting-on-input {
             margin-left: 10px;
-            width: 200px;
+            width: 150px;
             padding: 5px;
             font-size: 13px;
             border: 1px solid #ddd;
@@ -675,6 +699,245 @@
             display: block;
         }
 
+        /* Calendar Styles */
+        .mini-calendar {
+            width: 90%;
+            margin: 10px auto;
+            background: #fff;
+            border-radius: 4px;
+            padding: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .mini-calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .mini-calendar-title {
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .mini-calendar-nav {
+            display: flex;
+            gap: 5px;
+        }
+
+        .mini-calendar-nav button {
+            padding: 2px 5px;
+            font-size: 10px;
+        }
+
+        .mini-calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            font-size: 10px;
+            text-align: center;
+            margin-bottom: 3px;
+        }
+
+        .mini-calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+
+        .mini-calendar-day {
+            font-size: 10px;
+            text-align: center;
+            padding: 3px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .mini-calendar-day:hover {
+            background: #f0f0f0;
+        }
+
+        .mini-calendar-day.today {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .mini-calendar-day.other-month {
+            opacity: 0.3;
+        }
+
+        .calendar-view {
+            display: none;
+            padding: 15px;
+        }
+
+        .calendar-view.active {
+            display: block;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .calendar-view-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .calendar-view-option {
+            padding: 5px 10px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .calendar-view-option.active {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .weekly-view {
+            display: none;
+        }
+
+        .monthly-view {
+            display: none;
+        }
+
+        .weekly-view.active, .monthly-view.active {
+            display: block;
+        }
+
+        .week-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .week-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            min-height: 100px;
+        }
+
+        .day {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            min-height: 100px;
+        }
+
+        .day-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .day.today {
+            background: #f0f8ff;
+        }
+
+        .day.other-month {
+            opacity: 0.5;
+        }
+
+        .task-bar {
+            background: #1a73e8;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-bottom: 3px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+        }
+
+        .task-bar:hover {
+            opacity: 0.8;
+        }
+
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .month-day {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            min-height: 80px;
+        }
+
+        .month-day-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .month-day.today {
+            background: #f0f8ff;
+        }
+
+        .month-task {
+            font-size: 10px;
+            margin-bottom: 2px;
+            padding: 1px 3px;
+            border-radius: 2px;
+            background: #e0e0e0;
+        }
+
+        .month-task.priority-high {
+            background: #dc3545;
+            color: white;
+        }
+
+        .month-task.priority-medium {
+            background: #ffc107;
+        }
+
+        .month-task.priority-low {
+            background: #28a745;
+            color: white;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .color-option {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .color-option.selected {
+            border-color: #000;
+        }
+
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -720,6 +983,15 @@
             button {
                 padding: 6px 12px;
             }
+
+            .subheading-selector, 
+            .contact-subheading-selector,
+            .process-subheading-selector,
+            .note-subheading-selector {
+                position: static;
+                margin-top: 5px;
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -730,13 +1002,44 @@
             <i class="fas fa-bars"></i>
         </button>
         
+        <!-- Mini Calendar -->
+        <div class="mini-calendar" id="miniCalendar">
+            <div class="mini-calendar-header">
+                <div class="mini-calendar-title" id="miniCalendarMonth"></div>
+                <div class="mini-calendar-nav">
+                    <button onclick="changeMiniCalendarMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button onclick="changeMiniCalendarMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="mini-calendar-weekdays">
+                <div>S</div>
+                <div>M</div>
+                <div>T</div>
+                <div>W</div>
+                <div>T</div>
+                <div>F</div>
+                <div>S</div>
+            </div>
+            <div class="mini-calendar-days" id="miniCalendarDays"></div>
+        </div>
+        
+        <div class="sidebar-item" onclick="openTab('calendar')">
+            <i class="fas fa-calendar"></i>
+            <span>Calendar</span>
+        </div>
+        <div class="sidebar-content" id="calendar-sidebar"></div>
+        
         <div class="sidebar-item active" onclick="openTab('tasks')">
             <i class="fas fa-tasks"></i>
             <span>Tasks</span>
         </div>
-        <div class="sidebar-content" id="tasks-sidebar">
-            <!-- Tasks will be listed here when expanded -->
+        <div class="sidebar-content" id="tasks-sidebar"></div>
+        
+        <div class="sidebar-item" onclick="openTab('notes')">
+            <i class="fas fa-sticky-note"></i>
+            <span>Notes</span>
         </div>
+        <div class="sidebar-content" id="notes-sidebar"></div>
         
         <div class="sidebar-item" onclick="openTab('contacts')">
             <i class="fas fa-address-book"></i>
@@ -749,27 +1052,24 @@
             <span>Processes</span>
         </div>
         <div class="sidebar-content" id="processes-sidebar"></div>
-
-        <div class="sidebar-item" onclick="openTab('notes')">
-            <i class="fas fa-sticky-note"></i>
-            <span>Notes</span>
-        </div>
-        <div class="sidebar-content" id="notes-sidebar"></div>
     </div>
 
     <div class="container">
         <div class="tabs">
+            <button class="tab-button" onclick="openTab('calendar')">
+                <i class="fas fa-calendar"></i> Calendar
+            </button>
             <button class="tab-button active" onclick="openTab('tasks')">
                 <i class="fas fa-tasks"></i> Tasks
+            </button>
+            <button class="tab-button" onclick="openTab('notes')">
+                <i class="fas fa-sticky-note"></i> Notes
             </button>
             <button class="tab-button" onclick="openTab('contacts')">
                 <i class="fas fa-address-book"></i> Contacts
             </button>
             <button class="tab-button" onclick="openTab('processes')">
                 <i class="fas fa-project-diagram"></i> Processes
-            </button>
-            <button class="tab-button" onclick="openTab('notes')">
-                <i class="fas fa-sticky-note"></i> Notes
             </button>
             <button class="settings-button" onclick="toggleSettingsMenu()">
                 <i class="fas fa-cog"></i>
@@ -778,6 +1078,40 @@
                 <button class="reset-btn" onclick="resetAllData()">
                     Reset All Data
                 </button>
+            </div>
+        </div>
+
+        <!-- Calendar Tab -->
+        <div id="calendar" class="tab-content">
+            <div class="calendar-header">
+                <div class="calendar-title" id="calendarTitle"></div>
+                <div class="calendar-nav">
+                    <button onclick="changeCalendarMonth(-1)"><i class="fas fa-chevron-left"></i> Previous</button>
+                    <button onclick="goToToday()">Today</button>
+                    <button onclick="changeCalendarMonth(1)">Next <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="calendar-view-options">
+                <div class="calendar-view-option active" onclick="setCalendarView('weekly')">Weekly View</div>
+                <div class="calendar-view-option" onclick="setCalendarView('monthly')">Monthly View</div>
+            </div>
+            
+            <div class="weekly-view active" id="weeklyView">
+                <div class="week-header">
+                    <div>Sunday</div>
+                    <div>Monday</div>
+                    <div>Tuesday</div>
+                    <div>Wednesday</div>
+                    <div>Thursday</div>
+                    <div>Friday</div>
+                    <div>Saturday</div>
+                </div>
+                <div class="week-days" id="weekDays"></div>
+            </div>
+            
+            <div class="monthly-view" id="monthlyView">
+                <div class="month-grid" id="monthGrid"></div>
             </div>
         </div>
 
@@ -811,6 +1145,16 @@
                         <i class="fas fa-star" data-value="5"></i>
                     </div>
                 </div>
+                <div class="input-group">
+                    <label>Color</label>
+                    <div class="color-picker" id="taskColorPicker">
+                        <div class="color-option selected" style="background-color: #1a73e8;" data-color="#1a73e8"></div>
+                        <div class="color-option" style="background-color: #dc3545;" data-color="#dc3545"></div>
+                        <div class="color-option" style="background-color: #28a745;" data-color="#28a745"></div>
+                        <div class="color-option" style="background-color: #ffc107;" data-color="#ffc107"></div>
+                        <div class="color-option" style="background-color: #6f42c1;" data-color="#6f42c1"></div>
+                    </div>
+                </div>
                 <button onclick="addTask()">Add Task</button>
                 
                 <div class="notes-container">
@@ -831,6 +1175,33 @@
             </div>
         </div>
 
+        <!-- Notes Tab -->
+        <div id="notes" class="tab-content">
+            <button class="new-item-btn" onclick="toggleInputs('notes')">
+                <i class="fas fa-plus"></i> New Note
+            </button>
+            <div class="search-container">
+                <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
+            </div>
+            <div class="input-section">
+                <div class="input-group" style="width: 60%;">
+                    <input type="text" id="noteTitle" placeholder="Note title">
+                </div>
+                <button onclick="addNote()">Add Note</button>
+                
+                <div class="notes-container">
+                    <textarea id="noteContent" class="large-notes" placeholder="Note content..."></textarea>
+                </div>
+            </div>
+            
+            <div class="new-subheading-bar">
+                <input type="text" id="newNoteSubheading" class="new-subheading-input" placeholder="New subheading name">
+                <button onclick="addSubheading('note')">Add</button>
+            </div>
+            
+            <div id="notesList"></div>
+        </div>
+
         <!-- Contacts Tab -->
         <div id="contacts" class="tab-content">
             <button class="new-item-btn" onclick="toggleInputs('contacts')">
@@ -843,7 +1214,7 @@
                 </button>
             </div>
             <div class="input-section">
-                <div class="input-group" style="width: 45%;">
+                <div class="input-group" style="width: 30%;">
                     <input type="text" id="contactName" placeholder="Name">
                 </div>
                 <div class="input-group">
@@ -896,33 +1267,6 @@
             
             <div id="processesList"></div>
         </div>
-
-        <!-- Notes Tab -->
-        <div id="notes" class="tab-content">
-            <button class="new-item-btn" onclick="toggleInputs('notes')">
-                <i class="fas fa-plus"></i> New Note
-            </button>
-            <div class="search-container">
-                <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
-            </div>
-            <div class="input-section">
-                <div class="input-group" style="width: 60%;">
-                    <input type="text" id="noteTitle" placeholder="Note title">
-                </div>
-                <button onclick="addNote()">Add Note</button>
-                
-                <div class="notes-container">
-                    <textarea id="noteContent" class="large-notes" placeholder="Note content..."></textarea>
-                </div>
-            </div>
-            
-            <div class="new-subheading-bar">
-                <input type="text" id="newNoteSubheading" class="new-subheading-input" placeholder="New subheading name">
-                <button onclick="addSubheading('note')">Add</button>
-            </div>
-            
-            <div id="notesList"></div>
-        </div>
     </div>
 
     <script>
@@ -932,6 +1276,7 @@
         let processes = JSON.parse(localStorage.getItem('processes')) || [];
         let notes = JSON.parse(localStorage.getItem('notes')) || [];
         let selectedPriority = 1;
+        let selectedColor = '#1a73e8';
         let taskSubheadings = JSON.parse(localStorage.getItem('taskSubheadings')) || ['General'];
         let contactSubheadings = JSON.parse(localStorage.getItem('contactSubheadings')) || ['General'];
         let processSubheadings = JSON.parse(localStorage.getItem('processSubheadings')) || ['General'];
@@ -940,6 +1285,8 @@
         let collapsedSubheadings = JSON.parse(localStorage.getItem('collapsedSubheadings')) || {};
         let collapsedSidebarItems = JSON.parse(localStorage.getItem('collapsedSidebarItems')) || {};
         let showFlaggedOnly = false;
+        let currentCalendarDate = new Date();
+        let currentCalendarView = 'weekly';
 
         // Tab Navigation
         function openTab(tabName) {
@@ -952,13 +1299,18 @@
             
             // Highlight the corresponding sidebar item
             const sidebarItems = document.querySelectorAll('.sidebar-item');
-            if (tabName === 'tasks') sidebarItems[0].classList.add('active');
-            else if (tabName === 'contacts') sidebarItems[1].classList.add('active');
-            else if (tabName === 'processes') sidebarItems[2].classList.add('active');
+            if (tabName === 'calendar') sidebarItems[1].classList.add('active');
+            else if (tabName === 'tasks') sidebarItems[2].classList.add('active');
             else if (tabName === 'notes') sidebarItems[3].classList.add('active');
+            else if (tabName === 'contacts') sidebarItems[4].classList.add('active');
+            else if (tabName === 'processes') sidebarItems[5].classList.add('active');
             
             activeSidebar = tabName;
             updateSidebar(tabName);
+            
+            if (tabName === 'calendar') {
+                renderCalendar();
+            }
         }
 
         // Toggle sidebar
@@ -1217,7 +1569,8 @@
                 toggleBtn.innerHTML = tab === 'tasks' ? '<i class="fas fa-plus"></i> New Task' : 
                                      tab === 'contacts' ? '<i class="fas fa-plus"></i> New Contact' : 
                                      tab === 'processes' ? '<i class="fas fa-plus"></i> New Process' :
-                                     '<i class="fas fa-plus"></i> New Note';
+                                     tab === 'notes' ? '<i class="fas fa-plus"></i> New Note' :
+                                     '<i class="fas fa-plus"></i> New Item';
             } else {
                 toggleBtn.innerHTML = 'Hide Form';
             }
@@ -1243,12 +1596,15 @@
                 noteSubheadings = ['General'];
                 collapsedSubheadings = {};
                 collapsedSidebarItems = {};
+                currentCalendarDate = new Date();
+                currentCalendarView = 'weekly';
                 
                 saveAllData();
                 renderTasks();
                 renderContacts();
                 renderProcesses();
                 renderNotes();
+                renderMiniCalendar();
                 updateSidebar('tasks');
                 updateSidebar('contacts');
                 updateSidebar('processes');
@@ -1608,6 +1964,244 @@
                     });
                 });
             });
+            
+            // Set up color picker
+            const colorOptions = document.querySelectorAll('#taskColorPicker .color-option');
+            colorOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    colorOptions.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedColor = option.getAttribute('data-color');
+                });
+            });
+        }
+
+        // Calendar Functions
+        function renderMiniCalendar() {
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"];
+            
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            
+            document.getElementById('miniCalendarMonth').textContent = 
+                `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+            
+            const calendarDays = document.getElementById('miniCalendarDays');
+            calendarDays.innerHTML = '';
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'mini-calendar-day other-month';
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'mini-calendar-day';
+                dayElement.textContent = i;
+                
+                // Highlight today
+                if (i === currentDate.getDate() && currentMonth === currentDate.getMonth() && currentYear === currentDate.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Add click event to open calendar tab and show this date
+                dayElement.onclick = () => {
+                    openTab('calendar');
+                    currentCalendarDate = new Date(currentYear, currentMonth, i);
+                    renderCalendar();
+                };
+                
+                calendarDays.appendChild(dayElement);
+            }
+        }
+
+        function changeMiniCalendarMonth(change) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + change);
+            renderMiniCalendar();
+        }
+
+        function renderCalendar() {
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                                "July", "August", "September", "October", "November", "December"];
+            
+            const currentMonth = currentCalendarDate.getMonth();
+            const currentYear = currentCalendarDate.getFullYear();
+            
+            document.getElementById('calendarTitle').textContent = 
+                `${monthNames[currentMonth]} ${currentYear}`;
+            
+            if (currentCalendarView === 'weekly') {
+                renderWeeklyView();
+            } else {
+                renderMonthlyView();
+            }
+        }
+
+        function renderWeeklyView() {
+            const weekDays = document.getElementById('weekDays');
+            weekDays.innerHTML = '';
+            
+            // Get the Sunday of the current week
+            const sunday = new Date(currentCalendarDate);
+            sunday.setDate(currentCalendarDate.getDate() - currentCalendarDate.getDay());
+            
+            // Render each day of the week
+            for (let i = 0; i < 7; i++) {
+                const dayDate = new Date(sunday);
+                dayDate.setDate(sunday.getDate() + i);
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'day';
+                
+                // Highlight today
+                const today = new Date();
+                if (dayDate.getDate() === today.getDate() && 
+                    dayDate.getMonth() === today.getMonth() && 
+                    dayDate.getFullYear() === today.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Day header
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-header';
+                dayHeader.textContent = `${dayDate.toLocaleDateString('en-US', { weekday: 'short' })}, ${dayDate.getDate()}`;
+                dayElement.appendChild(dayHeader);
+                
+                // Find tasks for this day
+                const dayTasks = tasks.filter(task => {
+                    if (!task.start || !task.due) return false;
+                    
+                    const startDate = new Date(task.start);
+                    const dueDate = new Date(task.due);
+                    const currentDate = new Date(dayDate);
+                    
+                    // Reset time parts for comparison
+                    startDate.setHours(0, 0, 0, 0);
+                    dueDate.setHours(0, 0, 0, 0);
+                    currentDate.setHours(0, 0, 0, 0);
+                    
+                    return currentDate >= startDate && currentDate <= dueDate;
+                });
+                
+                // Add tasks to the day
+                dayTasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = 'task-bar';
+                    taskElement.textContent = task.title;
+                    taskElement.style.backgroundColor = task.color || '#1a73e8';
+                    taskElement.onclick = () => scrollToItem('task', task.id);
+                    dayElement.appendChild(taskElement);
+                });
+                
+                weekDays.appendChild(dayElement);
+            }
+        }
+
+        function renderMonthlyView() {
+            const monthGrid = document.getElementById('monthGrid');
+            monthGrid.innerHTML = '';
+            
+            const firstDay = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), 1);
+            const lastDay = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth() + 1, 0);
+            
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'month-day other-month';
+                monthGrid.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayDate = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth(), i);
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'month-day';
+                
+                // Highlight today
+                const today = new Date();
+                if (i === today.getDate() && 
+                    currentCalendarDate.getMonth() === today.getMonth() && 
+                    currentCalendarDate.getFullYear() === today.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Day header
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'month-day-header';
+                dayHeader.textContent = i;
+                dayElement.appendChild(dayHeader);
+                
+                // Find tasks for this day
+                const dayTasks = tasks.filter(task => {
+                    if (!task.start || !task.due) return false;
+                    
+                    const startDate = new Date(task.start);
+                    const dueDate = new Date(task.due);
+                    const currentDate = new Date(dayDate);
+                    
+                    // Reset time parts for comparison
+                    startDate.setHours(0, 0, 0, 0);
+                    dueDate.setHours(0, 0, 0, 0);
+                    currentDate.setHours(0, 0, 0, 0);
+                    
+                    return currentDate >= startDate && currentDate <= dueDate;
+                });
+                
+                // Add tasks to the day
+                dayTasks.forEach(task => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = `month-task priority-${task.priority}`;
+                    taskElement.textContent = task.title;
+                    taskElement.onclick = () => scrollToItem('task', task.id);
+                    dayElement.appendChild(taskElement);
+                });
+                
+                monthGrid.appendChild(dayElement);
+            }
+        }
+
+        function changeCalendarMonth(change) {
+            currentCalendarDate.setMonth(currentCalendarDate.getMonth() + change);
+            renderCalendar();
+            renderMiniCalendar();
+        }
+
+        function goToToday() {
+            currentCalendarDate = new Date();
+            renderCalendar();
+            renderMiniCalendar();
+        }
+
+        function setCalendarView(view) {
+            currentCalendarView = view;
+            
+            // Update active button
+            document.querySelectorAll('.calendar-view-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide views
+            document.getElementById('weeklyView').classList.remove('active');
+            document.getElementById('monthlyView').classList.remove('active');
+            document.getElementById(`${view}View`).classList.add('active');
+            
+            renderCalendar();
         }
 
         // Task Functions
@@ -1627,7 +2221,8 @@
                 currentStep: '',
                 completed: false,
                 created: new Date().toISOString(),
-                subheading: taskSubheadings[0]
+                subheading: taskSubheadings[0],
+                color: selectedColor
             };
 
             if (!task.title) return;
@@ -1637,6 +2232,7 @@
             renderTasks();
             clearTaskForm();
             updateSidebar('tasks');
+            renderCalendar();
         }
 
         function renderTasks() {
@@ -1687,6 +2283,15 @@
                 `<option value="${sh}" ${task.subheading === sh ? 'selected' : ''}>${sh}</option>`
             ).join('');
 
+            // Color picker for the task
+            const colors = ['#1a73e8', '#dc3545', '#28a745', '#ffc107', '#6f42c1'];
+            const colorOptions = colors.map(color => 
+                `<div class="color-option ${task.color === color ? 'selected' : ''}" 
+                      style="background-color: ${color}" 
+                      data-color="${color}"
+                      onclick="updateTaskColor(${task.id}, '${color}')"></div>`
+            ).join('');
+
             taskElement.innerHTML = `
                 <div class="task-header">
                     <span class="task-title" contenteditable="true" 
@@ -1702,6 +2307,11 @@
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
+                </div>
+                <div class="subheading-selector">
+                    <select onchange="updateTaskField(${task.id}, 'subheading', this.value)">
+                        ${subheadingOptions}
+                    </select>
                 </div>
                 <textarea class="current-step" placeholder="Current step..." 
                        oninput="updateTaskField(${task.id}, 'currentStep', this.value)">${task.currentStep || ''}</textarea>
@@ -1722,6 +2332,12 @@
                         <input type="date" value="${task.due}" 
                                onchange="updateTaskField(${task.id}, 'due', this.value)">
                     </div>
+                    <div class="task-meta-item">
+                        <span>Color:</span>
+                        <div class="color-picker">
+                            ${colorOptions}
+                        </div>
+                    </div>
                     ${timelineHTML}
                 </div>
                 <div class="notes-header" onclick="toggleNotes(this)">
@@ -1734,11 +2350,6 @@
                 <div class="move-buttons">
                     <button onclick="moveTask(${task.id}, 'up')">↑</button>
                     <button onclick="moveTask(${task.id}, 'down')">↓</button>
-                </div>
-                <div class="subheading-selector">
-                    <select onchange="updateTaskField(${task.id}, 'subheading', this.value)">
-                        ${subheadingOptions}
-                    </select>
                 </div>
             `;
             return taskElement;
@@ -1786,6 +2397,17 @@
                 saveTasks();
                 renderTasks();
                 updateSidebar('tasks');
+                renderCalendar();
+            }
+        }
+
+        function updateTaskColor(taskId, color) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.color = color;
+                saveTasks();
+                renderTasks();
+                renderCalendar();
             }
         }
 
@@ -1796,6 +2418,7 @@
                 saveTasks();
                 renderTasks();
                 updateSidebar('tasks');
+                renderCalendar();
             }
         }
 
@@ -1856,14 +2479,19 @@
                           oninput="updateContactField(${contact.id}, 'name', this.innerText)">
                         ${contact.name}
                     </span>
+                    <input type="text" class="waiting-on-input" placeholder="Waiting on..." 
+                           value="${contact.waitingOn || ''}" 
+                           oninput="updateContactField(${contact.id}, 'waitingOn', this.value)">
                     <div class="contact-controls">
-                        <input type="text" class="waiting-on-input" placeholder="Waiting on..." 
-                               value="${contact.waitingOn || ''}" 
-                               oninput="updateContactField(${contact.id}, 'waitingOn', this.value)">
                         <button class="delete-btn" onclick="confirmDelete('contact', ${contact.id})">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
+                </div>
+                <div class="contact-subheading-selector">
+                    <select onchange="updateContactField(${contact.id}, 'subheading', this.value)">
+                        ${subheadingOptions}
+                    </select>
                 </div>
                 <div class="contact-details">
                     <div>
@@ -1900,11 +2528,6 @@
                 <div class="contact-move-buttons">
                     <button onclick="moveContact(${contact.id}, 'up')">↑</button>
                     <button onclick="moveContact(${contact.id}, 'down')">↓</button>
-                </div>
-                <div class="contact-subheading-selector">
-                    <select onchange="updateContactField(${contact.id}, 'subheading', this.value)">
-                        ${subheadingOptions}
-                    </select>
                 </div>
             `;
             return contactElement;
@@ -1976,11 +2599,11 @@
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
-                    <div class="subheading-selector">
-                        <select onchange="updateProcessField(${process.id}, 'subheading', this.value)">
-                            ${subheadingOptions}
-                        </select>
-                    </div>
+                </div>
+                <div class="process-subheading-selector">
+                    <select onchange="updateProcessField(${process.id}, 'subheading', this.value)">
+                        ${subheadingOptions}
+                    </select>
                 </div>
                 <div class="notes-header" onclick="toggleNotes(this)">
                     Steps
@@ -2056,11 +2679,11 @@
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
-                    <div class="subheading-selector">
-                        <select onchange="updateNoteField(${note.id}, 'subheading', this.value)">
-                            ${subheadingOptions}
-                        </select>
-                    </div>
+                </div>
+                <div class="note-subheading-selector">
+                    <select onchange="updateNoteField(${note.id}, 'subheading', this.value)">
+                        ${subheadingOptions}
+                    </select>
                 </div>
                 <div class="notes-header" onclick="toggleNotes(this)">
                     Content
@@ -2106,6 +2729,7 @@
             saveTasks();
             renderTasks();
             updateSidebar('tasks');
+            renderCalendar();
         }
 
         function deleteContact(id) {
@@ -2140,6 +2764,9 @@
                 }
                 if (field === 'title') {
                     updateSidebar('tasks');
+                }
+                if (field === 'start' || field === 'due') {
+                    renderCalendar();
                 }
             }
         }
@@ -2366,6 +2993,16 @@
                     star.classList.remove('active');
                 }
             });
+            // Reset color picker
+            selectedColor = '#1a73e8';
+            const colorOptions = document.querySelectorAll('#taskColorPicker .color-option');
+            colorOptions.forEach((option, index) => {
+                if (index === 0) {
+                    option.classList.add('selected');
+                } else {
+                    option.classList.remove('selected');
+                }
+            });
         }
 
         function clearContactForm() {
@@ -2399,6 +3036,7 @@
             renderContacts();
             renderProcesses();
             renderNotes();
+            renderMiniCalendar();
             
             // Open tasks tab by default
             openTab('tasks');
