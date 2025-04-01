@@ -699,7 +699,7 @@
             display: block;
         }
 
-        /* Calendar Styles */
+        /* Mini Calendar Styles */
         .mini-calendar {
             width: 90%;
             margin: 10px auto;
@@ -707,6 +707,11 @@
             border-radius: 4px;
             padding: 5px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: none; /* Hidden by default */
+        }
+
+        .sidebar.expanded .mini-calendar {
+            display: block; /* Show when sidebar is expanded */
         }
 
         .mini-calendar-header {
@@ -729,6 +734,10 @@
         .mini-calendar-nav button {
             padding: 2px 5px;
             font-size: 10px;
+            background: none;
+            border: none;
+            color: #2d2d2d;
+            cursor: pointer;
         }
 
         .mini-calendar-weekdays {
@@ -751,6 +760,7 @@
             padding: 3px;
             border-radius: 2px;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
 
         .mini-calendar-day:hover {
@@ -766,6 +776,12 @@
             opacity: 0.3;
         }
 
+        .mini-calendar-day.selected {
+            background: #1a73e8;
+            color: white;
+        }
+
+        /* Calendar Tab Styles */
         .calendar-view {
             display: none;
             padding: 15px;
@@ -938,6 +954,28 @@
             border-color: #000;
         }
 
+        /* Contact Name and Waiting On adjustments */
+        .contact-name-input {
+            width: 50% !important; /* Make contact name box half width */
+        }
+
+        .waiting-on-input {
+            width: 200px !important; /* Make waiting on box longer */
+            margin-left: 5px !important; /* Adjust spacing */
+        }
+
+        /* Subheading controls spacing */
+        .subheading-controls {
+            gap: 8px !important; /* More space between buttons */
+        }
+
+        /* Add button sizing */
+        .new-subheading-bar button {
+            height: 30px !important; /* Match height of input */
+            padding: 0 10px !important; /* Adjust padding */
+            line-height: 30px !important;
+        }
+
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -1002,7 +1040,7 @@
             <i class="fas fa-bars"></i>
         </button>
         
-        <!-- Mini Calendar -->
+        <!-- Mini Calendar - Only shows when sidebar is expanded -->
         <div class="mini-calendar" id="miniCalendar">
             <div class="mini-calendar-header">
                 <div class="mini-calendar-title" id="miniCalendarMonth"></div>
@@ -1215,7 +1253,7 @@
             </div>
             <div class="input-section">
                 <div class="input-group" style="width: 30%;">
-                    <input type="text" id="contactName" placeholder="Name">
+                    <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
                 </div>
                 <div class="input-group">
                     <input type="text" id="contactJobTitle" placeholder="Job Title">
@@ -1226,6 +1264,7 @@
                 <div class="input-group">
                     <input type="tel" id="contactPhone" placeholder="Phone">
                 </div>
+                <input type="text" class="waiting-on-input" placeholder="Waiting on..." id="contactWaitingOn">
                 <button onclick="addContact()">Add Contact</button>
                 
                 <div class="notes-container">
@@ -1287,6 +1326,7 @@
         let showFlaggedOnly = false;
         let currentCalendarDate = new Date();
         let currentCalendarView = 'weekly';
+        let selectedDay = null;
 
         // Tab Navigation
         function openTab(tabName) {
@@ -1297,7 +1337,7 @@
             document.getElementById(tabName).classList.add('active');
             event.currentTarget.classList.add('active');
             
-            // Highlight the corresponding sidebar item
+            // Highlight only the active sidebar item
             const sidebarItems = document.querySelectorAll('.sidebar-item');
             if (tabName === 'calendar') sidebarItems[1].classList.add('active');
             else if (tabName === 'tasks') sidebarItems[2].classList.add('active');
@@ -1324,6 +1364,7 @@
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
                 updateSidebar(activeSidebar);
+                renderMiniCalendar();
             } else {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
@@ -1981,9 +2022,8 @@
             const monthNames = ["January", "February", "March", "April", "May", "June",
                                 "July", "August", "September", "October", "November", "December"];
             
-            const currentDate = new Date();
-            const currentMonth = currentDate.getMonth();
-            const currentYear = currentDate.getFullYear();
+            const currentMonth = currentCalendarDate.getMonth();
+            const currentYear = currentCalendarDate.getFullYear();
             
             document.getElementById('miniCalendarMonth').textContent = 
                 `${monthNames[currentMonth]} ${currentYear}`;
@@ -2011,15 +2051,24 @@
                 dayElement.textContent = i;
                 
                 // Highlight today
-                if (i === currentDate.getDate() && currentMonth === currentDate.getMonth() && currentYear === currentDate.getFullYear()) {
+                const today = new Date();
+                if (i === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
                     dayElement.classList.add('today');
+                }
+                
+                // Highlight selected day
+                if (selectedDay && i === selectedDay.getDate() && currentMonth === selectedDay.getMonth() && currentYear === selectedDay.getFullYear()) {
+                    dayElement.classList.add('selected');
                 }
                 
                 // Add click event to open calendar tab and show this date
                 dayElement.onclick = () => {
+                    const clickedDate = new Date(currentYear, currentMonth, i);
+                    selectedDay = clickedDate;
                     openTab('calendar');
-                    currentCalendarDate = new Date(currentYear, currentMonth, i);
+                    currentCalendarDate = clickedDate;
                     renderCalendar();
+                    renderMiniCalendar();
                 };
                 
                 calendarDays.appendChild(dayElement);
@@ -2070,6 +2119,13 @@
                     dayDate.getMonth() === today.getMonth() && 
                     dayDate.getFullYear() === today.getFullYear()) {
                     dayElement.classList.add('today');
+                }
+                
+                // Highlight selected day
+                if (selectedDay && dayDate.getDate() === selectedDay.getDate() && 
+                    dayDate.getMonth() === selectedDay.getMonth() && 
+                    dayDate.getFullYear() === selectedDay.getFullYear()) {
+                    dayElement.style.border = '2px solid #1a73e8';
                 }
                 
                 // Day header
@@ -2140,6 +2196,13 @@
                     dayElement.classList.add('today');
                 }
                 
+                // Highlight selected day
+                if (selectedDay && i === selectedDay.getDate() && 
+                    currentCalendarDate.getMonth() === selectedDay.getMonth() && 
+                    currentCalendarDate.getFullYear() === selectedDay.getFullYear()) {
+                    dayElement.style.border = '2px solid #1a73e8';
+                }
+                
                 // Day header
                 const dayHeader = document.createElement('div');
                 dayHeader.className = 'month-day-header';
@@ -2177,12 +2240,14 @@
 
         function changeCalendarMonth(change) {
             currentCalendarDate.setMonth(currentCalendarDate.getMonth() + change);
+            selectedDay = null;
             renderCalendar();
             renderMiniCalendar();
         }
 
         function goToToday() {
             currentCalendarDate = new Date();
+            selectedDay = new Date();
             renderCalendar();
             renderMiniCalendar();
         }
@@ -2444,7 +2509,7 @@
                 phone: document.getElementById('contactPhone').value.trim(),
                 notes: document.getElementById('contactNotes').value.trim(),
                 flagged: false,
-                waitingOn: '',
+                waitingOn: document.getElementById('contactWaitingOn').value.trim(),
                 subheading: contactSubheadings[0]
             };
 
@@ -3011,6 +3076,7 @@
             document.getElementById('contactEmail').value = '';
             document.getElementById('contactPhone').value = '';
             document.getElementById('contactNotes').value = '';
+            document.getElementById('contactWaitingOn').value = '';
         }
 
         function clearProcessForm() {
