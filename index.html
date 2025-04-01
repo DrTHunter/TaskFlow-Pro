@@ -1193,19 +1193,19 @@
 
     <div class="container">
         <div class="tabs">
-            <button class="tab-button" onclick="openTab('calendar')">
+            <button class="tab-button" onclick="openTab('calendar', event)">
                 <i class="fas fa-calendar"></i> Calendar
             </button>
-            <button class="tab-button active" onclick="openTab('tasks')">
+            <button class="tab-button active" onclick="openTab('tasks', event)">
                 <i class="fas fa-tasks"></i> Tasks
             </button>
-            <button class="tab-button" onclick="openTab('notes')">
+            <button class="tab-button" onclick="openTab('notes', event)">
                 <i class="fas fa-sticky-note"></i> Notes
             </button>
-            <button class="tab-button" onclick="openTab('contacts')">
+            <button class="tab-button" onclick="openTab('contacts', event)">
                 <i class="fas fa-address-book"></i> Contacts
             </button>
-            <button class="tab-button" onclick="openTab('processes')">
+            <button class="tab-button" onclick="openTab('processes', event)">
                 <i class="fas fa-project-diagram"></i> Processes
             </button>
             <button class="settings-button" onclick="toggleSettingsMenu()">
@@ -1428,13 +1428,15 @@
         let selectedDay = null;
 
         // Tab Navigation
-        function openTab(tabName) {
+        function openTab(tabName, event) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
             
             document.getElementById(tabName).classList.add('active');
-            event.currentTarget.classList.add('active');
+            if (event) {
+                event.currentTarget.classList.add('active');
+            }
             
             // Highlight only the active sidebar item
             const sidebarItems = document.querySelectorAll('.sidebar-item');
@@ -1521,11 +1523,12 @@
             updateSidebar(activeSidebar);
         }
 
-        // Scroll to section
-        function scrollToSection(section) {
-            const element = document.getElementById(section);
+        function scrollToItem(type, id) {
+            const element = document.querySelector(`.${type}-item[data-id="${id}"]`);
             if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.style.animation = 'highlight 1s';
+                setTimeout(() => element.style.animation = '', 1000);
             }
         }
 
@@ -1550,7 +1553,7 @@
                 // Add subheadings and items
                 for (const [subheading, items] of Object.entries(grouped)) {
                     const subheadingKey = `task-${subheading}`;
-                    const isCollapsed = collapsedSubheadings[`${type}-${subheading}`] ?? true; // Default to collapsed
+                    const isCollapsed = collapsedSubheadings[subheadingKey] ?? true;
                     
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
@@ -1717,15 +1720,6 @@
                     
                     sidebar.appendChild(subitemsContainer);
                 }
-            }
-        }
-
-        function scrollToItem(type, id) {
-            const element = document.querySelector(`.${type}-item[data-id="${id}"]`);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                element.style.animation = 'highlight 1s';
-                setTimeout(() => element.style.animation = '', 1000);
             }
         }
 
@@ -3237,24 +3231,22 @@
             // Open tasks tab by default
             openTab('tasks');
             
-            // Collapse all sidebar items by default
+            // Initialize sidebar items
             document.querySelectorAll('.sidebar-content').forEach(content => {
                 content.style.display = 'none';
             });
-            document.querySelectorAll('.sidebar-content-header').forEach(header => {
-                header.classList.add('collapsed');
-            });
-            document.querySelectorAll('.sidebar-subitems').forEach(subitems => {
-                subitems.classList.add('collapsed');
-            });
             
-            // Set up click handlers for sidebar items to toggle their subheadings
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                const tabName = item.getAttribute('onclick').match(/'([^']+)'/)[1];
-                item.onclick = function(e) {
-                    openTab(tabName);
-                    toggleSidebarItem(tabName);
-                };
+            // Set up click handlers for sidebar items
+            document.querySelectorAll('.sidebar-item').forEach((item, index) => {
+                if (index === 1) { // Calendar
+                    item.onclick = handleCalendarClick;
+                } else {
+                    const tabName = item.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    item.onclick = function(e) {
+                        openTab(tabName, e);
+                        toggleSidebarItem(tabName);
+                    };
+                }
             });
         };
     </script>
