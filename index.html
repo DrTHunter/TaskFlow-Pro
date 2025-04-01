@@ -149,6 +149,30 @@
             display: none;
         }
         
+        /* New Calendar Styling */
+        .sidebar:not(.expanded) .mini-calendar {
+            display: none;
+        }
+        
+        .sidebar-item i.fa-calendar {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar.expanded .sidebar-item i.fa-calendar {
+            display: none;
+        }
+        
+        .sidebar.expanded .mini-calendar {
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .sidebar.expanded .sidebar-item:not(:first-child) {
+            margin-top: 15px;
+        }
+        /*sidebar css added 1 end*/
+        
         .sidebar.expanded .sidebar-label {
             display: inline;
         }
@@ -1107,29 +1131,31 @@
             <i class="fas fa-bars"></i>
         </button>
         
-        <!-- Mini Calendar - Always visible but shows more when expanded -->
+               <!-- Replace the existing calendar sidebar item with this: -->
         <div class="sidebar-item" onclick="handleCalendarClick()">
             <i class="fas fa-calendar"></i>
             <span class="sidebar-label">Calendar</span>
-            <div class="mini-calendar" id="miniCalendar">
-                <div class="mini-calendar-header">
-                    <div class="mini-calendar-title" id="miniCalendarMonth"></div>
-                    <div class="mini-calendar-nav">
-                        <button onclick="changeMiniCalendarMonth(-1, event)"><i class="fas fa-chevron-left"></i></button>
-                        <button onclick="changeMiniCalendarMonth(1, event)"><i class="fas fa-chevron-right"></i></button>
-                    </div>
+        </div>
+        
+        <!-- Move the mini-calendar outside the sidebar-item and place it here: -->
+        <div class="mini-calendar" id="miniCalendar">
+            <div class="mini-calendar-header">
+                <div class="mini-calendar-title" id="miniCalendarMonth"></div>
+                <div class="mini-calendar-nav">
+                    <button onclick="changeMiniCalendarMonth(-1, event)"><i class="fas fa-chevron-left"></i></button>
+                    <button onclick="changeMiniCalendarMonth(1, event)"><i class="fas fa-chevron-right"></i></button>
                 </div>
-                <div class="mini-calendar-weekdays">
-                    <div>S</div>
-                    <div>M</div>
-                    <div>T</div>
-                    <div>W</div>
-                    <div>T</div>
-                    <div>F</div>
-                    <div>S</div>
-                </div>
-                <div class="mini-calendar-days" id="miniCalendarDays"></div>
             </div>
+            <div class="mini-calendar-weekdays">
+                <div>S</div>
+                <div>M</div>
+                <div>T</div>
+                <div>W</div>
+                <div>T</div>
+                <div>F</div>
+                <div>S</div>
+            </div>
+            <div class="mini-calendar-days" id="miniCalendarDays"></div>
         </div>
         
         <!-- Tasks Section -->
@@ -1432,18 +1458,63 @@
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.toggle('expanded');
             
+        function toggleSidebar(event) {
+            if (event) event.stopPropagation();
+            const sidebar = document.querySelector('.sidebar');
+            const wasExpanded = sidebar.classList.contains('expanded');
+            
+            // Toggle sidebar state
+            sidebar.classList.toggle('expanded');
+            
+            // Update toggle icon
             const icon = document.querySelector('.sidebar-toggle i');
             if (sidebar.classList.contains('expanded')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
                 updateSidebar(activeSidebar);
                 renderMiniCalendar();
+                
+                // Special handling for calendar click
+                if (event && event.target.closest('.fa-calendar')) {
+                    setTimeout(() => {
+                        const miniCalendar = document.getElementById('miniCalendar');
+                        if (miniCalendar) {
+                            miniCalendar.scrollIntoView({ 
+                                behavior: 'smooth', 
+                                block: 'nearest'
+                            });
+                        }
+                    }, 300);
+                }
             } else {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
+            
+            if (event) {
+                event.preventDefault();
+            }
         }
 
+        function handleCalendarClick(event) {
+            toggleSidebar(event); // Let the enhanced toggleSidebar handle everything
+        }
+            
+        function handleCalendarClick() {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar.classList.contains('expanded')) {
+                toggleSidebar(); // Expand the sidebar if it's collapsed
+            }
+            // Scroll to the mini calendar if needed
+            document.getElementById('miniCalendar').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function toggleCalendarView() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('expanded');
+            renderMiniCalendar();
+        }
+        
         // Toggle settings menu
         function toggleSettingsMenu() {
             const menu = document.getElementById('settingsMenu');
