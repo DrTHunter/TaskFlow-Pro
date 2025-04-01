@@ -1476,7 +1476,7 @@
                 // Add subheadings and items
                 for (const [subheading, items] of Object.entries(grouped)) {
                     const subheadingKey = `task-${subheading}`;
-                    const isCollapsed = collapsedSubheadings[subheadingKey] || false;
+                    const isCollapsed = collapsedSubheadings[`${type}-${subheading}`] ?? true; // Default to collapsed
                     
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
