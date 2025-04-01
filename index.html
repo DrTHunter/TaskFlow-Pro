@@ -144,6 +144,50 @@
             max-height: 0;
         }
 
+        /*sidebar css added 1 beginning*/
+        .sidebar-label {
+            display: none;
+        }
+        
+        .sidebar.expanded .sidebar-label {
+            display: inline;
+        }
+        
+        .sidebar-chevron {
+            display: none;
+            transition: transform 0.3s;
+        }
+        
+        .sidebar.expanded .sidebar-chevron {
+            display: inline-block;
+        }
+        
+        .sidebar-item.collapsed .sidebar-chevron {
+            transform: rotate(-90deg);
+        }
+        
+        .mini-calendar {
+            display: none;
+            width: 90%;
+            margin: 10px auto;
+            background: #fff;
+            border-radius: 4px;
+            padding: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar.expanded .mini-calendar {
+            display: block;
+        }
+        
+        .sidebar-item {
+            position: relative;
+        }
+        
+        .sidebar-item.active {
+            background-color: #1a73e8;
+        }
+/*sidebar css added 1 end*/
         .container {
             flex: 1;
             background-color: white;
@@ -1040,54 +1084,60 @@
             <i class="fas fa-bars"></i>
         </button>
         
-        <!-- Mini Calendar - Only shows when sidebar is expanded -->
-        <div class="mini-calendar" id="miniCalendar">
-            <div class="mini-calendar-header">
-                <div class="mini-calendar-title" id="miniCalendarMonth"></div>
-                <div class="mini-calendar-nav">
-                    <button onclick="changeMiniCalendarMonth(-1)"><i class="fas fa-chevron-left"></i></button>
-                    <button onclick="changeMiniCalendarMonth(1)"><i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
-            <div class="mini-calendar-weekdays">
-                <div>S</div>
-                <div>M</div>
-                <div>T</div>
-                <div>W</div>
-                <div>T</div>
-                <div>F</div>
-                <div>S</div>
-            </div>
-            <div class="mini-calendar-days" id="miniCalendarDays"></div>
-        </div>
-        
-        <div class="sidebar-item" onclick="openTab('calendar')">
+        <!-- Mini Calendar - Always visible but shows more when expanded -->
+        <div class="sidebar-item" onclick="handleCalendarClick()">
             <i class="fas fa-calendar"></i>
-            <span>Calendar</span>
+            <span class="sidebar-label">Calendar</span>
+            <div class="mini-calendar" id="miniCalendar">
+                <div class="mini-calendar-header">
+                    <div class="mini-calendar-title" id="miniCalendarMonth"></div>
+                    <div class="mini-calendar-nav">
+                        <button onclick="changeMiniCalendarMonth(-1, event)"><i class="fas fa-chevron-left"></i></button>
+                        <button onclick="changeMiniCalendarMonth(1, event)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div class="mini-calendar-weekdays">
+                    <div>S</div>
+                    <div>M</div>
+                    <div>T</div>
+                    <div>W</div>
+                    <div>T</div>
+                    <div>F</div>
+                    <div>S</div>
+                </div>
+                <div class="mini-calendar-days" id="miniCalendarDays"></div>
+            </div>
         </div>
-        <div class="sidebar-content" id="calendar-sidebar"></div>
         
-        <div class="sidebar-item active" onclick="openTab('tasks')">
+        <!-- Tasks Section -->
+        <div class="sidebar-item" onclick="toggleSidebarItem('tasks')">
             <i class="fas fa-tasks"></i>
-            <span>Tasks</span>
+            <span class="sidebar-label">Tasks</span>
+            <i class="fas fa-chevron-down sidebar-chevron"></i>
         </div>
         <div class="sidebar-content" id="tasks-sidebar"></div>
         
-        <div class="sidebar-item" onclick="openTab('notes')">
+        <!-- Notes Section -->
+        <div class="sidebar-item" onclick="toggleSidebarItem('notes')">
             <i class="fas fa-sticky-note"></i>
-            <span>Notes</span>
+            <span class="sidebar-label">Notes</span>
+            <i class="fas fa-chevron-down sidebar-chevron"></i>
         </div>
         <div class="sidebar-content" id="notes-sidebar"></div>
         
-        <div class="sidebar-item" onclick="openTab('contacts')">
+        <!-- Contacts Section -->
+        <div class="sidebar-item" onclick="toggleSidebarItem('contacts')">
             <i class="fas fa-address-book"></i>
-            <span>Contacts</span>
+            <span class="sidebar-label">Contacts</span>
+            <i class="fas fa-chevron-down sidebar-chevron"></i>
         </div>
         <div class="sidebar-content" id="contacts-sidebar"></div>
         
-        <div class="sidebar-item" onclick="openTab('processes')">
+        <!-- Processes Section -->
+        <div class="sidebar-item" onclick="toggleSidebarItem('processes')">
             <i class="fas fa-project-diagram"></i>
-            <span>Processes</span>
+            <span class="sidebar-label">Processes</span>
+            <i class="fas fa-chevron-down sidebar-chevron"></i>
         </div>
         <div class="sidebar-content" id="processes-sidebar"></div>
     </div>
