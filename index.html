@@ -330,24 +330,46 @@
             background-color: #f8f9fa;
         }
 
+        /* UPDATED TASK STYLES START */
         .task-header {
             display: flex;
             align-items: center;
-            gap: 10px;
             margin-bottom: 10px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .task-title {
             font-weight: bold;
-            margin-bottom: 5px;
-            width: 50%;
-            max-width: 50%;
+            flex-grow: 1;
+            min-width: 200px;
             word-wrap: break-word;
             min-height: 20px;
             padding: 5px;
             border: none;
             border-radius: 4px;
         }
+
+        .complete-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+
+        .current-step {
+            margin-top: 5px;
+            width: 100%;
+            min-height: 40px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            font-size: 13px;
+            line-height: 1.4;
+            overflow-y: auto;
+        }
+        /* UPDATED TASK STYLES END */
 
         .task-meta {
             display: flex;
@@ -363,21 +385,6 @@
             display: flex;
             align-items: center;
             gap: 5px;
-        }
-
-        .current-step {
-            margin-top: 5px;
-            width: 50%;
-            min-height: 20px;
-            max-height: 20px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            resize: none;
-            font-size: 13px;
-            line-height: 1.4;
-            overflow: hidden;
-            height: auto;
         }
 
         .notes-header {
@@ -663,18 +670,6 @@
 
         .collapsible-content.collapsed {
             max-height: 0;
-        }
-
-        .complete-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-right: 10px;
-        }
-
-        .complete-checkbox-label {
-            font-size: 13px;
-            color: #555;
         }
 
         .contact-header {
@@ -2483,15 +2478,15 @@
 
             taskElement.innerHTML = `
                 <div class="task-header">
+                    <span class="task-title" contenteditable="true" 
+                          oninput="updateTaskField(${task.id}, 'title', this.innerText)">
+                        ${task.title}
+                    </span>
                     <div class="complete-checkbox">
                         <input type="checkbox" id="complete-${task.id}" ${task.completed ? 'checked' : ''} 
                                onchange="toggleTask(${task.id})">
                         <label for="complete-${task.id}" class="complete-checkbox-label">Complete</label>
                     </div>
-                    <span class="task-title" contenteditable="true" 
-                          oninput="updateTaskField(${task.id}, 'title', this.innerText)">
-                        ${task.title}
-                    </span>
                     <div class="task-controls">
                         <button class="delete-btn" onclick="confirmDelete('task', ${task.id})">
                             <i class="fas fa-trash"></i>
