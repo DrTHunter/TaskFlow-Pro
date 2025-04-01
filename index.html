@@ -149,30 +149,6 @@
             display: none;
         }
         
-        /* New Calendar Styling */
-        .sidebar:not(.expanded) .mini-calendar {
-            display: none;
-        }
-        
-        .sidebar-item i.fa-calendar {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-        
-        .sidebar.expanded .sidebar-item i.fa-calendar {
-            display: none;
-        }
-        
-        .sidebar.expanded .mini-calendar {
-            display: block;
-            margin-top: 10px;
-        }
-        
-        .sidebar.expanded .sidebar-item:not(:first-child) {
-            margin-top: 15px;
-        }
-        /*sidebar css added 1 end*/
-        
         .sidebar.expanded .sidebar-label {
             display: inline;
         }
@@ -200,14 +176,8 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
-        .mini-calendar {
-            display: block; /* Always show calendar */
-            width: 90%;
-            margin: 10px auto;
-            background: #fff;
-            border-radius: 4px;
-            padding: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .sidebar.expanded .mini-calendar {
+            display: block;
         }
         
         .sidebar-item {
@@ -784,23 +754,6 @@
             display: none; /* Hidden by default */
         }
 
-        /* Mini Calendar Styles */
-        .mini-calendar {
-            width: 90%;
-            margin: 10px auto;
-            background: #fff;
-            border-radius: 4px;
-            padding: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            display: none; /* Hidden by default */
-        }
-        
-        .mini-calendar-title,
-        .mini-calendar-nav button,
-        .mini-calendar-weekdays div {
-            color: #333; /* Same color as the days */
-        }
-        
         .sidebar.expanded .mini-calendar {
             display: block; /* Show when sidebar is expanded */
         }
@@ -851,7 +804,7 @@
             padding: 3px;
             border-radius: 2px;
             cursor: pointer;
-            color: #333; /* changed this line for darker text */
+            transition: background-color 0.2s;
         }
 
         .mini-calendar-day:hover {
@@ -1067,53 +1020,6 @@
             line-height: 30px !important;
         }
 
-        /* New styles for search bar positioning */
-        .tab-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .tab-header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Updated contact input section styles */
-        .contact-input-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: flex-end;
-        }
-
-        .contact-input-row {
-            display: flex;
-            width: 100%;
-            gap: 10px;
-        }
-
-        .contact-name-group {
-            flex: 1.5; /* 50% bigger than others */
-        }
-
-        .contact-input-group {
-            flex: 1;
-        }
-
-        /* Existing contact item styles */
-        .existing-contact-name {
-            width: 30% !important;
-        }
-
-        .existing-waiting-on {
-            width: 60% !important;
-            margin-left: 10px;
-        }
-
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -1168,22 +1074,6 @@
                 margin-top: 5px;
                 width: 100%;
             }
-
-            /* Responsive adjustments for contact inputs */
-            .contact-input-row {
-                flex-direction: column;
-            }
-
-            .contact-name-group,
-            .contact-input-group {
-                width: 100%;
-            }
-
-            .existing-contact-name,
-            .existing-waiting-on {
-                width: 100% !important;
-                margin-left: 0 !important;
-            }
         }
     </style>
 </head>
@@ -1194,31 +1084,29 @@
             <i class="fas fa-bars"></i>
         </button>
         
-               <!-- Replace the existing calendar sidebar item with this: -->
+        <!-- Mini Calendar - Always visible but shows more when expanded -->
         <div class="sidebar-item" onclick="handleCalendarClick()">
             <i class="fas fa-calendar"></i>
             <span class="sidebar-label">Calendar</span>
-        </div>
-        
-        <!-- Move the mini-calendar outside the sidebar-item and place it here: -->
-        <div class="mini-calendar" id="miniCalendar">
-            <div class="mini-calendar-header">
-                <div class="mini-calendar-title" id="miniCalendarMonth"></div>
-                <div class="mini-calendar-nav">
-                    <button onclick="changeMiniCalendarMonth(-1, event)"><i class="fas fa-chevron-left"></i></button>
-                    <button onclick="changeMiniCalendarMonth(1, event)"><i class="fas fa-chevron-right"></i></button>
+            <div class="mini-calendar" id="miniCalendar">
+                <div class="mini-calendar-header">
+                    <div class="mini-calendar-title" id="miniCalendarMonth"></div>
+                    <div class="mini-calendar-nav">
+                        <button onclick="changeMiniCalendarMonth(-1, event)"><i class="fas fa-chevron-left"></i></button>
+                        <button onclick="changeMiniCalendarMonth(1, event)"><i class="fas fa-chevron-right"></i></button>
+                    </div>
                 </div>
+                <div class="mini-calendar-weekdays">
+                    <div>S</div>
+                    <div>M</div>
+                    <div>T</div>
+                    <div>W</div>
+                    <div>T</div>
+                    <div>F</div>
+                    <div>S</div>
+                </div>
+                <div class="mini-calendar-days" id="miniCalendarDays"></div>
             </div>
-            <div class="mini-calendar-weekdays">
-                <div>S</div>
-                <div>M</div>
-                <div>T</div>
-                <div>W</div>
-                <div>T</div>
-                <div>F</div>
-                <div>S</div>
-            </div>
-            <div class="mini-calendar-days" id="miniCalendarDays"></div>
         </div>
         
         <!-- Tasks Section -->
@@ -1256,19 +1144,19 @@
 
     <div class="container">
         <div class="tabs">
-            <button class="tab-button" onclick="openTab('calendar', event)">
+            <button class="tab-button" onclick="openTab('calendar')">
                 <i class="fas fa-calendar"></i> Calendar
             </button>
-            <button class="tab-button active" onclick="openTab('tasks', event)">
+            <button class="tab-button active" onclick="openTab('tasks')">
                 <i class="fas fa-tasks"></i> Tasks
             </button>
-            <button class="tab-button" onclick="openTab('notes', event)">
+            <button class="tab-button" onclick="openTab('notes')">
                 <i class="fas fa-sticky-note"></i> Notes
             </button>
-            <button class="tab-button" onclick="openTab('contacts', event)">
+            <button class="tab-button" onclick="openTab('contacts')">
                 <i class="fas fa-address-book"></i> Contacts
             </button>
-            <button class="tab-button" onclick="openTab('processes', event)">
+            <button class="tab-button" onclick="openTab('processes')">
                 <i class="fas fa-project-diagram"></i> Processes
             </button>
             <button class="settings-button" onclick="toggleSettingsMenu()">
@@ -1317,13 +1205,11 @@
 
         <!-- Tasks Tab -->
         <div id="tasks" class="tab-content active">
-            <div class="tab-header">
-                <div class="tab-header-left">
-                    <button class="new-item-btn" onclick="toggleInputs('tasks')">
-                        <i class="fas fa-plus"></i> New Task
-                    </button>
-                    <input type="text" class="search-bar" id="taskSearch" placeholder="Search tasks..." oninput="searchTasks()">
-                </div>
+            <button class="new-item-btn" onclick="toggleInputs('tasks')">
+                <i class="fas fa-plus"></i> New Task
+            </button>
+            <div class="search-container">
+                <input type="text" class="search-bar" id="taskSearch" placeholder="Search tasks..." oninput="searchTasks()">
             </div>
             <div class="input-section">
                 <div class="input-group">
@@ -1379,13 +1265,11 @@
 
         <!-- Notes Tab -->
         <div id="notes" class="tab-content">
-            <div class="tab-header">
-                <div class="tab-header-left">
-                    <button class="new-item-btn" onclick="toggleInputs('notes')">
-                        <i class="fas fa-plus"></i> New Note
-                    </button>
-                    <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
-                </div>
+            <button class="new-item-btn" onclick="toggleInputs('notes')">
+                <i class="fas fa-plus"></i> New Note
+            </button>
+            <div class="search-container">
+                <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
             </div>
             <div class="input-section">
                 <div class="input-group" style="width: 60%;">
@@ -1408,37 +1292,29 @@
 
         <!-- Contacts Tab -->
         <div id="contacts" class="tab-content">
-            <div class="tab-header">
-                <div class="tab-header-left">
-                    <button class="new-item-btn" onclick="toggleInputs('contacts')">
-                        <i class="fas fa-plus"></i> New Contact
-                    </button>
-                    <input type="text" class="search-bar" id="contactSearch" placeholder="Search contacts..." oninput="searchContacts()">
-                    <button class="filter-btn" onclick="toggleFlaggedContacts()">
-                        <i class="fas fa-flag"></i> Flagged Only
-                    </button>
-                </div>
+            <button class="new-item-btn" onclick="toggleInputs('contacts')">
+                <i class="fas fa-plus"></i> New Contact
+            </button>
+            <div class="search-container">
+                <input type="text" class="search-bar" id="contactSearch" placeholder="Search contacts..." oninput="searchContacts()">
+                <button class="filter-btn" onclick="toggleFlaggedContacts()">
+                    <i class="fas fa-flag"></i> Flagged Only
+                </button>
             </div>
-            <div class="input-section contact-input-section">
-                <div class="contact-input-row">
-                    <div class="input-group contact-name-group">
-                        <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
-                    </div>
-                    <div class="input-group contact-input-group">
-                        <input type="text" id="contactJobTitle" placeholder="Job Title">
-                    </div>
+            <div class="input-section">
+                <div class="input-group" style="width: 30%;">
+                    <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
                 </div>
-                <div class="contact-input-row">
-                    <div class="input-group contact-input-group">
-                        <input type="email" id="contactEmail" placeholder="Email">
-                    </div>
-                    <div class="input-group contact-input-group">
-                        <input type="tel" id="contactPhone" placeholder="Phone">
-                    </div>
-                    <div class="input-group contact-input-group">
-                        <input type="text" id="contactWaitingOn" placeholder="Waiting on...">
-                    </div>
+                <div class="input-group">
+                    <input type="text" id="contactJobTitle" placeholder="Job Title">
                 </div>
+                <div class="input-group">
+                    <input type="email" id="contactEmail" placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <input type="tel" id="contactPhone" placeholder="Phone">
+                </div>
+                <input type="text" class="waiting-on-input" placeholder="Waiting on..." id="contactWaitingOn">
                 <button onclick="addContact()">Add Contact</button>
                 
                 <div class="notes-container">
@@ -1456,13 +1332,11 @@
 
         <!-- Processes Tab -->
         <div id="processes" class="tab-content">
-            <div class="tab-header">
-                <div class="tab-header-left">
-                    <button class="new-item-btn" onclick="toggleInputs('processes')">
-                        <i class="fas fa-plus"></i> New Process
-                    </button>
-                    <input type="text" class="search-bar" id="processSearch" placeholder="Search processes..." oninput="searchProcesses()">
-                </div>
+            <button class="new-item-btn" onclick="toggleInputs('processes')">
+                <i class="fas fa-plus"></i> New Process
+            </button>
+            <div class="search-container">
+                <input type="text" class="search-bar" id="processSearch" placeholder="Search processes..." oninput="searchProcesses()">
             </div>
             <div class="input-section">
                 <div class="input-group">
@@ -1505,15 +1379,13 @@
         let selectedDay = null;
 
         // Tab Navigation
-        function openTab(tabName, event) {
+        function openTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
             
             document.getElementById(tabName).classList.add('active');
-            if (event) {
-                event.currentTarget.classList.add('active');
-            }
+            event.currentTarget.classList.add('active');
             
             // Highlight only the active sidebar item
             const sidebarItems = document.querySelectorAll('.sidebar-item');
@@ -1533,53 +1405,22 @@
 
         // Toggle sidebar
         function toggleSidebar(event) {
-            if (event) event.stopPropagation();
+            event.stopPropagation();
             const sidebar = document.querySelector('.sidebar');
-            const wasExpanded = sidebar.classList.contains('expanded');
-            
-            // Toggle sidebar state
             sidebar.classList.toggle('expanded');
             
-            // Update toggle icon
             const icon = document.querySelector('.sidebar-toggle i');
             if (sidebar.classList.contains('expanded')) {
                 icon.classList.remove('fa-bars');
                 icon.classList.add('fa-times');
                 updateSidebar(activeSidebar);
                 renderMiniCalendar();
-                
-                // Special handling for calendar click
-                if (event && event.target.closest('.fa-calendar')) {
-                    setTimeout(() => {
-                        const miniCalendar = document.getElementById('miniCalendar');
-                        if (miniCalendar) {
-                            miniCalendar.scrollIntoView({ 
-                                behavior: 'smooth', 
-                                block: 'nearest'
-                            });
-                        }
-                    }, 300);
-                }
             } else {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
-            
-            if (event) {
-                event.preventDefault();
-            }
         }
 
-        function handleCalendarClick(event) {
-            toggleSidebar(event); // Let the enhanced toggleSidebar handle everything
-        }
-                    
-        function toggleCalendarView() {
-            const sidebar = document.querySelector('.sidebar');
-            sidebar.classList.toggle('expanded');
-            renderMiniCalendar();
-        }
-        
         // Toggle settings menu
         function toggleSettingsMenu() {
             const menu = document.getElementById('settingsMenu');
@@ -1600,12 +1441,11 @@
             updateSidebar(activeSidebar);
         }
 
-        function scrollToItem(type, id) {
-            const element = document.querySelector(`.${type}-item[data-id="${id}"]`);
+        // Scroll to section
+        function scrollToSection(section) {
+            const element = document.getElementById(section);
             if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                element.style.animation = 'highlight 1s';
-                setTimeout(() => element.style.animation = '', 1000);
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
@@ -1630,7 +1470,7 @@
                 // Add subheadings and items
                 for (const [subheading, items] of Object.entries(grouped)) {
                     const subheadingKey = `task-${subheading}`;
-                    const isCollapsed = collapsedSubheadings[subheadingKey] ?? true;
+                    const isCollapsed = collapsedSubheadings[subheadingKey] || false;
                     
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
@@ -1797,6 +1637,15 @@
                     
                     sidebar.appendChild(subitemsContainer);
                 }
+            }
+        }
+
+        function scrollToItem(type, id) {
+            const element = document.querySelector(`.${type}-item[data-id="${id}"]`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.style.animation = 'highlight 1s';
+                setTimeout(() => element.style.animation = '', 1000);
             }
         }
 
@@ -2741,11 +2590,11 @@
                 <i class="fas fa-flag contact-flag ${contact.flagged ? 'active' : ''}" 
                    onclick="toggleContactFlag(${contact.id})"></i>
                 <div class="contact-header">
-                    <span class="task-title existing-contact-name" contenteditable="true" 
+                    <span class="task-title" contenteditable="true" 
                           oninput="updateContactField(${contact.id}, 'name', this.innerText)">
                         ${contact.name}
                     </span>
-                    <input type="text" class="waiting-on-input existing-waiting-on" placeholder="Waiting on..." 
+                    <input type="text" class="waiting-on-input" placeholder="Waiting on..." 
                            value="${contact.waitingOn || ''}" 
                            oninput="updateContactField(${contact.id}, 'waitingOn', this.value)">
                     <div class="contact-controls">
@@ -3148,7 +2997,7 @@
         function searchContacts() {
             const searchTerm = document.getElementById('contactSearch').value.toLowerCase();
             const filtered = showFlaggedOnly ? 
-                contacts.filter(c => c.flagged && Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm)) :
+                contacts.filter(c => c.flagged && Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm))) :
                 contacts.filter(c => Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm)));
             
             const contactsList = document.getElementById('contactsList');
@@ -3308,22 +3157,24 @@
             // Open tasks tab by default
             openTab('tasks');
             
-            // Initialize sidebar items
+            // Collapse all sidebar items by default
             document.querySelectorAll('.sidebar-content').forEach(content => {
                 content.style.display = 'none';
             });
+            document.querySelectorAll('.sidebar-content-header').forEach(header => {
+                header.classList.add('collapsed');
+            });
+            document.querySelectorAll('.sidebar-subitems').forEach(subitems => {
+                subitems.classList.add('collapsed');
+            });
             
-            // Set up click handlers for sidebar items
-            document.querySelectorAll('.sidebar-item').forEach((item, index) => {
-                if (index === 1) { // Calendar
-                    item.onclick = handleCalendarClick;
-                } else {
-                    const tabName = item.getAttribute('onclick').match(/'([^']+)'/)[1];
-                    item.onclick = function(e) {
-                        openTab(tabName, e);
-                        toggleSidebarItem(tabName);
-                    };
-                }
+            // Set up click handlers for sidebar items to toggle their subheadings
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                const tabName = item.getAttribute('onclick').match(/'([^']+)'/)[1];
+                item.onclick = function(e) {
+                    openTab(tabName);
+                    toggleSidebarItem(tabName);
+                };
             });
         };
     </script>
