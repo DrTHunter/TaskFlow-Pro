@@ -40,8 +40,8 @@
         }
 
         .sidebar-logo {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             margin: 10px 0;
             background-image: url('assets/sidebar_logo.png');
             background-size: contain;
@@ -119,6 +119,7 @@
 
         .sidebar-content-header i {
             transition: transform 0.3s;
+            margin-right: 5px;
         }
 
         .sidebar-content-header.collapsed i {
@@ -149,6 +150,7 @@
             display: flex;
             background-color: #1a73e8;
             flex-wrap: wrap;
+            position: relative;
         }
 
         .tab-button {
@@ -166,6 +168,18 @@
 
         .tab-button.active {
             background-color: #1557b0;
+        }
+
+        .settings-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         .tab-content {
@@ -250,6 +264,10 @@
             border-radius: 4px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             position: relative;
+        }
+
+        .contact-item {
+            padding: 8px 12px;
         }
 
         .priority-high { border-left: 4px solid #dc3545; }
@@ -349,6 +367,15 @@
             align-items: center;
         }
 
+        .contact-controls {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
         .delete-btn {
             background-color: #dc3545;
             padding: 6px 12px;
@@ -362,6 +389,14 @@
             gap: 5px;
         }
 
+        .contact-move-buttons {
+            position: absolute;
+            top: 40px;
+            right: 12px;
+            display: flex;
+            gap: 5px;
+        }
+
         .subheading-selector {
             position: absolute;
             top: 12px;
@@ -370,10 +405,30 @@
             gap: 5px;
         }
 
-        .search-bar {
+        .contact-subheading-selector {
+            position: absolute;
+            top: 8px;
+            right: 100px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 10px;
             margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .search-bar {
             width: 100%;
             max-width: 300px;
+        }
+
+        .filter-btn {
+            padding: 8px 12px;
+            font-size: 12px;
+            background-color: #6c757d;
         }
 
         .notes-container {
@@ -558,17 +613,19 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-left: 25px;
         }
 
-        .bookmark-flag {
-            color: #ffc107;
+        .contact-flag {
+            color: #ddd;
             cursor: pointer;
             position: absolute;
-            left: 10px;
-            top: 10px;
+            left: 15px;
+            top: 15px;
+            font-size: 16px;
         }
 
-        .bookmark-flag.active {
+        .contact-flag.active {
             color: #ffc107;
         }
 
@@ -608,6 +665,23 @@
             font-weight: bold;
             font-size: 16px;
             flex: 1;
+        }
+
+        .settings-menu {
+            display: none;
+            position: absolute;
+            right: 10px;
+            top: 50px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .settings-menu.active {
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -706,6 +780,14 @@
             <button class="tab-button" onclick="openTab('notes')">
                 <i class="fas fa-sticky-note"></i> Notes
             </button>
+            <button class="settings-button" onclick="toggleSettingsMenu()">
+                <i class="fas fa-cog"></i>
+            </button>
+            <div class="settings-menu" id="settingsMenu">
+                <button class="reset-btn" onclick="resetAllData()">
+                    Reset All Data
+                </button>
+            </div>
         </div>
 
         <!-- Tasks Tab -->
@@ -713,7 +795,9 @@
             <button class="new-item-btn" onclick="toggleInputs('tasks')">
                 <i class="fas fa-plus"></i> New Task
             </button>
-            <input type="text" class="search-bar" id="taskSearch" placeholder="Search tasks..." oninput="searchTasks()">
+            <div class="search-container">
+                <input type="text" class="search-bar" id="taskSearch" placeholder="Search tasks..." oninput="searchTasks()">
+            </div>
             <div class="input-section">
                 <div class="input-group">
                     <input type="text" id="taskTitle" placeholder="Task title">
@@ -761,9 +845,14 @@
             <button class="new-item-btn" onclick="toggleInputs('contacts')">
                 <i class="fas fa-plus"></i> New Contact
             </button>
-            <input type="text" class="search-bar" id="contactSearch" placeholder="Search contacts..." oninput="searchContacts()">
+            <div class="search-container">
+                <input type="text" class="search-bar" id="contactSearch" placeholder="Search contacts..." oninput="searchContacts()">
+                <button class="filter-btn" onclick="toggleFlaggedContacts()">
+                    <i class="fas fa-flag"></i> Flagged Only
+                </button>
+            </div>
             <div class="input-section">
-                <div class="input-group">
+                <div class="input-group" style="width: 45%;">
                     <input type="text" id="contactName" placeholder="Name">
                 </div>
                 <div class="input-group">
@@ -795,7 +884,9 @@
             <button class="new-item-btn" onclick="toggleInputs('processes')">
                 <i class="fas fa-plus"></i> New Process
             </button>
-            <input type="text" class="search-bar" id="processSearch" placeholder="Search processes..." oninput="searchProcesses()">
+            <div class="search-container">
+                <input type="text" class="search-bar" id="processSearch" placeholder="Search processes..." oninput="searchProcesses()">
+            </div>
             <div class="input-section">
                 <div class="input-group">
                     <input type="text" id="processTitle" placeholder="Process title">
@@ -812,10 +903,6 @@
                 <button onclick="addSubheading('process')">Add</button>
             </div>
             
-            <button class="reset-btn" onclick="resetAllData()">
-                Reset All Data
-            </button>
-            
             <div id="processesList"></div>
         </div>
 
@@ -824,9 +911,11 @@
             <button class="new-item-btn" onclick="toggleInputs('notes')">
                 <i class="fas fa-plus"></i> New Note
             </button>
-            <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
+            <div class="search-container">
+                <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
+            </div>
             <div class="input-section">
-                <div class="input-group">
+                <div class="input-group" style="width: 60%;">
                     <input type="text" id="noteTitle" placeholder="Note title">
                 </div>
                 <button onclick="addNote()">Add Note</button>
@@ -859,6 +948,7 @@
         let activeSidebar = 'tasks';
         let collapsedSubheadings = JSON.parse(localStorage.getItem('collapsedSubheadings')) || {};
         let collapsedSidebarItems = JSON.parse(localStorage.getItem('collapsedSidebarItems')) || {};
+        let showFlaggedOnly = false;
 
         // Tab Navigation
         function openTab(tabName) {
@@ -895,6 +985,12 @@
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
             }
+        }
+
+        // Toggle settings menu
+        function toggleSettingsMenu() {
+            const menu = document.getElementById('settingsMenu');
+            menu.classList.toggle('active');
         }
 
         // Toggle sidebar item collapse
@@ -944,8 +1040,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <span>${subheading}</span>
                         <i class="fas fa-chevron-down"></i>
+                        <span>${subheading}</span>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -989,8 +1085,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <span>${subheading}</span>
                         <i class="fas fa-chevron-down"></i>
+                        <span>${subheading}</span>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -1034,8 +1130,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <span>${subheading}</span>
                         <i class="fas fa-chevron-down"></i>
+                        <span>${subheading}</span>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -1079,8 +1175,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <span>${subheading}</span>
                         <i class="fas fa-chevron-down"></i>
+                        <span>${subheading}</span>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -1133,6 +1229,12 @@
             } else {
                 toggleBtn.innerHTML = 'Hide Form';
             }
+        }
+
+        // Toggle flagged contacts filter
+        function toggleFlaggedContacts() {
+            showFlaggedOnly = !showFlaggedOnly;
+            renderContacts();
         }
 
         // Reset all data
@@ -1204,7 +1306,9 @@
             if (type === 'task') {
                 items = tasks.filter(t => t.subheading === subheading);
             } else if (type === 'contact') {
-                items = contacts.filter(c => c.subheading === subheading);
+                items = showFlaggedOnly ? 
+                    contacts.filter(c => c.subheading === subheading && c.flagged) :
+                    contacts.filter(c => c.subheading === subheading);
             } else if (type === 'process') {
                 items = processes.filter(p => p.subheading === subheading);
             } else if (type === 'note') {
@@ -1753,14 +1857,14 @@
             ).join('');
 
             contactElement.innerHTML = `
-                <i class="fas fa-flag bookmark-flag ${contact.flagged ? 'active' : ''}" 
+                <i class="fas fa-flag contact-flag ${contact.flagged ? 'active' : ''}" 
                    onclick="toggleContactFlag(${contact.id})"></i>
                 <div class="contact-header">
                     <span class="task-title" contenteditable="true" 
                           oninput="updateContactField(${contact.id}, 'name', this.innerText)">
                         ${contact.name}
                     </span>
-                    <div class="task-controls">
+                    <div class="contact-controls">
                         <input type="text" class="waiting-on-input" placeholder="Waiting on..." 
                                value="${contact.waitingOn || ''}" 
                                oninput="updateContactField(${contact.id}, 'waitingOn', this.value)">
@@ -1801,11 +1905,11 @@
                         ${contact.notes}
                     </textarea>
                 </div>
-                <div class="move-buttons">
+                <div class="contact-move-buttons">
                     <button onclick="moveContact(${contact.id}, 'up')">↑</button>
                     <button onclick="moveContact(${contact.id}, 'down')">↓</button>
                 </div>
-                <div class="subheading-selector">
+                <div class="contact-subheading-selector">
                     <select onchange="updateContactField(${contact.id}, 'subheading', this.value)">
                         ${subheadingOptions}
                     </select>
@@ -2158,11 +2262,9 @@
 
         function searchContacts() {
             const searchTerm = document.getElementById('contactSearch').value.toLowerCase();
-            const filtered = contacts.filter(c => 
-                Object.values(c).some(val => 
-                    String(val).toLowerCase().includes(searchTerm)
-                )
-            );
+            const filtered = showFlaggedOnly ? 
+                contacts.filter(c => c.flagged && Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm))) :
+                contacts.filter(c => Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm)));
             
             const contactsList = document.getElementById('contactsList');
             contactsList.innerHTML = '';
@@ -2308,6 +2410,17 @@
             
             // Open tasks tab by default
             openTab('tasks');
+            
+            // Collapse all sidebar items by default
+            document.querySelectorAll('.sidebar-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.querySelectorAll('.sidebar-content-header').forEach(header => {
+                header.classList.add('collapsed');
+            });
+            document.querySelectorAll('.sidebar-subitems').forEach(subitems => {
+                subitems.classList.add('collapsed');
+            });
         };
     </script>
 </body>
