@@ -1067,6 +1067,53 @@
             line-height: 30px !important;
         }
 
+        /* New styles for search bar positioning */
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tab-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Updated contact input section styles */
+        .contact-input-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .contact-input-row {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .contact-name-group {
+            flex: 1.5; /* 50% bigger than others */
+        }
+
+        .contact-input-group {
+            flex: 1;
+        }
+
+        /* Existing contact item styles */
+        .existing-contact-name {
+            width: 30% !important;
+        }
+
+        .existing-waiting-on {
+            width: 60% !important;
+            margin-left: 10px;
+        }
+
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
@@ -1120,6 +1167,22 @@
                 position: static;
                 margin-top: 5px;
                 width: 100%;
+            }
+
+            /* Responsive adjustments for contact inputs */
+            .contact-input-row {
+                flex-direction: column;
+            }
+
+            .contact-name-group,
+            .contact-input-group {
+                width: 100%;
+            }
+
+            .existing-contact-name,
+            .existing-waiting-on {
+                width: 100% !important;
+                margin-left: 0 !important;
             }
         }
     </style>
@@ -1254,11 +1317,13 @@
 
         <!-- Tasks Tab -->
         <div id="tasks" class="tab-content active">
-            <button class="new-item-btn" onclick="toggleInputs('tasks')">
-                <i class="fas fa-plus"></i> New Task
-            </button>
-            <div class="search-container">
-                <input type="text" class="search-bar" id="taskSearch" placeholder="Search tasks..." oninput="searchTasks()">
+            <div class="tab-header">
+                <div class="tab-header-left">
+                    <button class="new-item-btn" onclick="toggleInputs('tasks')">
+                        <i class="fas fa-plus"></i> New Task
+                    </button>
+                    <input type="text" class="search-bar" id="taskSearch" placeholder="Search tasks..." oninput="searchTasks()">
+                </div>
             </div>
             <div class="input-section">
                 <div class="input-group">
@@ -1314,11 +1379,13 @@
 
         <!-- Notes Tab -->
         <div id="notes" class="tab-content">
-            <button class="new-item-btn" onclick="toggleInputs('notes')">
-                <i class="fas fa-plus"></i> New Note
-            </button>
-            <div class="search-container">
-                <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
+            <div class="tab-header">
+                <div class="tab-header-left">
+                    <button class="new-item-btn" onclick="toggleInputs('notes')">
+                        <i class="fas fa-plus"></i> New Note
+                    </button>
+                    <input type="text" class="search-bar" id="noteSearch" placeholder="Search notes..." oninput="searchNotes()">
+                </div>
             </div>
             <div class="input-section">
                 <div class="input-group" style="width: 60%;">
@@ -1341,29 +1408,37 @@
 
         <!-- Contacts Tab -->
         <div id="contacts" class="tab-content">
-            <button class="new-item-btn" onclick="toggleInputs('contacts')">
-                <i class="fas fa-plus"></i> New Contact
-            </button>
-            <div class="search-container">
-                <input type="text" class="search-bar" id="contactSearch" placeholder="Search contacts..." oninput="searchContacts()">
-                <button class="filter-btn" onclick="toggleFlaggedContacts()">
-                    <i class="fas fa-flag"></i> Flagged Only
-                </button>
+            <div class="tab-header">
+                <div class="tab-header-left">
+                    <button class="new-item-btn" onclick="toggleInputs('contacts')">
+                        <i class="fas fa-plus"></i> New Contact
+                    </button>
+                    <input type="text" class="search-bar" id="contactSearch" placeholder="Search contacts..." oninput="searchContacts()">
+                    <button class="filter-btn" onclick="toggleFlaggedContacts()">
+                        <i class="fas fa-flag"></i> Flagged Only
+                    </button>
+                </div>
             </div>
-            <div class="input-section">
-                <div class="input-group" style="width: 30%;">
-                    <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
+            <div class="input-section contact-input-section">
+                <div class="contact-input-row">
+                    <div class="input-group contact-name-group">
+                        <input type="text" id="contactName" placeholder="Name" class="contact-name-input">
+                    </div>
+                    <div class="input-group contact-input-group">
+                        <input type="text" id="contactJobTitle" placeholder="Job Title">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <input type="text" id="contactJobTitle" placeholder="Job Title">
+                <div class="contact-input-row">
+                    <div class="input-group contact-input-group">
+                        <input type="email" id="contactEmail" placeholder="Email">
+                    </div>
+                    <div class="input-group contact-input-group">
+                        <input type="tel" id="contactPhone" placeholder="Phone">
+                    </div>
+                    <div class="input-group contact-input-group">
+                        <input type="text" id="contactWaitingOn" placeholder="Waiting on...">
+                    </div>
                 </div>
-                <div class="input-group">
-                    <input type="email" id="contactEmail" placeholder="Email">
-                </div>
-                <div class="input-group">
-                    <input type="tel" id="contactPhone" placeholder="Phone">
-                </div>
-                <input type="text" class="waiting-on-input" placeholder="Waiting on..." id="contactWaitingOn">
                 <button onclick="addContact()">Add Contact</button>
                 
                 <div class="notes-container">
@@ -1381,11 +1456,13 @@
 
         <!-- Processes Tab -->
         <div id="processes" class="tab-content">
-            <button class="new-item-btn" onclick="toggleInputs('processes')">
-                <i class="fas fa-plus"></i> New Process
-            </button>
-            <div class="search-container">
-                <input type="text" class="search-bar" id="processSearch" placeholder="Search processes..." oninput="searchProcesses()">
+            <div class="tab-header">
+                <div class="tab-header-left">
+                    <button class="new-item-btn" onclick="toggleInputs('processes')">
+                        <i class="fas fa-plus"></i> New Process
+                    </button>
+                    <input type="text" class="search-bar" id="processSearch" placeholder="Search processes..." oninput="searchProcesses()">
+                </div>
             </div>
             <div class="input-section">
                 <div class="input-group">
@@ -2664,11 +2741,11 @@
                 <i class="fas fa-flag contact-flag ${contact.flagged ? 'active' : ''}" 
                    onclick="toggleContactFlag(${contact.id})"></i>
                 <div class="contact-header">
-                    <span class="task-title" contenteditable="true" 
+                    <span class="task-title existing-contact-name" contenteditable="true" 
                           oninput="updateContactField(${contact.id}, 'name', this.innerText)">
                         ${contact.name}
                     </span>
-                    <input type="text" class="waiting-on-input" placeholder="Waiting on..." 
+                    <input type="text" class="waiting-on-input existing-waiting-on" placeholder="Waiting on..." 
                            value="${contact.waitingOn || ''}" 
                            oninput="updateContactField(${contact.id}, 'waitingOn', this.value)">
                     <div class="contact-controls">
@@ -3071,7 +3148,7 @@
         function searchContacts() {
             const searchTerm = document.getElementById('contactSearch').value.toLowerCase();
             const filtered = showFlaggedOnly ? 
-                contacts.filter(c => c.flagged && Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm))) :
+                contacts.filter(c => c.flagged && Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm)) :
                 contacts.filter(c => Object.values(c).some(val => String(val).toLowerCase().includes(searchTerm)));
             
             const contactsList = document.getElementById('contactsList');
