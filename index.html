@@ -47,6 +47,12 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            transition: all 0.3s;
+        }
+
+        .sidebar.expanded .sidebar-logo {
+            width: 80px;
+            height: 80px;
         }
 
         .sidebar-toggle {
@@ -103,6 +109,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            text-align: left;
         }
 
         .sidebar-content-item:hover {
@@ -115,11 +122,11 @@
             justify-content: space-between;
             cursor: pointer;
             padding: 4px;
+            text-align: left;
         }
 
         .sidebar-content-header i {
             transition: transform 0.3s;
-            margin-right: 5px;
         }
 
         .sidebar-content-header.collapsed i {
@@ -393,22 +400,6 @@
             position: absolute;
             top: 40px;
             right: 12px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .subheading-selector {
-            position: absolute;
-            top: 12px;
-            right: 100px;
-            display: flex;
-            gap: 5px;
-        }
-
-        .contact-subheading-selector {
-            position: absolute;
-            top: 8px;
-            right: 100px;
             display: flex;
             gap: 5px;
         }
@@ -995,7 +986,8 @@
 
         // Toggle sidebar item collapse
         function toggleSidebarItem(itemType) {
-            collapsedSidebarItems[itemType] = !collapsedSidebarItems[itemType];
+            const wasCollapsed = collapsedSidebarItems[itemType] || false;
+            collapsedSidebarItems[itemType] = !wasCollapsed;
             localStorage.setItem('collapsedSidebarItems', JSON.stringify(collapsedSidebarItems));
             
             const content = document.getElementById(`${itemType}-sidebar`);
@@ -1040,8 +1032,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <i class="fas fa-chevron-down"></i>
                         <span>${subheading}</span>
+                        <i class="fas fa-chevron-down"></i>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -1085,8 +1077,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <i class="fas fa-chevron-down"></i>
                         <span>${subheading}</span>
+                        <i class="fas fa-chevron-down"></i>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -1130,8 +1122,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <i class="fas fa-chevron-down"></i>
                         <span>${subheading}</span>
+                        <i class="fas fa-chevron-down"></i>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -1175,8 +1167,8 @@
                     const subheadingElement = document.createElement('div');
                     subheadingElement.className = `sidebar-content-header ${isCollapsed ? 'collapsed' : ''}`;
                     subheadingElement.innerHTML = `
-                        <i class="fas fa-chevron-down"></i>
                         <span>${subheading}</span>
+                        <i class="fas fa-chevron-down"></i>
                     `;
                     subheadingElement.onclick = (e) => {
                         if (e.target.tagName === 'I' || e.target.tagName === 'SPAN') {
@@ -2420,6 +2412,15 @@
             });
             document.querySelectorAll('.sidebar-subitems').forEach(subitems => {
                 subitems.classList.add('collapsed');
+            });
+            
+            // Set up click handlers for sidebar items to toggle their subheadings
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                const tabName = item.getAttribute('onclick').match(/'([^']+)'/)[1];
+                item.onclick = function(e) {
+                    openTab(tabName);
+                    toggleSidebarItem(tabName);
+                };
             });
         };
     </script>
